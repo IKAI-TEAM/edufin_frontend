@@ -6,8 +6,7 @@ import 'package:edufin/models/auth/login_response_model.dart';
 
 class SharedService {
   static Future<bool> isLoggedIn() async {
-    var isCacheKeyExist =
-        await APICacheManager().isAPICacheKeyExist("login_details");
+    var isCacheKeyExist = await APICacheManager().isAPICacheKeyExist("login_details");
 
     return isCacheKeyExist;
   }
@@ -24,11 +23,9 @@ class SharedService {
     return null;
   }
 
-  static Future<void> setToken(LoginResponseModel loginResponse) async {
-    String? token = loginResponse.getToken();
+  static Future<void> setToken(String token) async {
 
-    APICacheDBModel cacheModel =
-        APICacheDBModel(key: "token", syncData: token.toString());
+    APICacheDBModel cacheModel = APICacheDBModel(key: "token", syncData: token);
 
     log(token.toString());
 

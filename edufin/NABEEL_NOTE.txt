@@ -1,0 +1,12 @@
+MAJOR :
+- View card webview
+- Profile QR Code (Sistemnya kalo di klik, nanti keluar qr code, qr code nya ngambil dari localStorage)
+- - Qr code better kalo lu tambahin package buat generate qr code nya sendiri sih di flutter
+- - Isi qr code nya : { email : emailuser@domain.com }
+- QR Code scanner (Abis scan, loncat ke add kartu page tapi udah ke isi semua, tinggal limit sama optional input yang buat kartu per x day)
+- Bikin if misalnya kartu dan tx belum ada gimana
+ 
+Minor :
+- Benerin password fields di register sama login
+- Tambahin error di register sama login (udah gua kasih note)
+- Kalo password fields udah di fix, ganti password dummy di variable models jadi data asli (ada di login sama register page paling bawah cari azza) 

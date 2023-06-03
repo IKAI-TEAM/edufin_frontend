@@ -1,7 +1,10 @@
+
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
+import 'package:edufin/models/auth/register_request_model.dart';
 import 'package:edufin/screens/login/login_screen.dart';
 import 'package:edufin/screens/success/success_screen.dart';
+import 'package:edufin/services/api_services.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +23,9 @@ class _RegisterState extends State<Register> {
 
   String phoneVal = r'^(\+62|62|0)8[1-9][0-9]{6,9}$';
   String nameVal = r'^[a-z A-Z]+$';
-  String emailVal =
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-  String governmentIdVal =
-      r'^(1[1-9]|21|[37][1-6]|5[1-3]|6[1-5]|[89][12])\d{2}\d{2}([04][1-9]|[1256][0-9]|[37][01])(0[1-9]|1[0-2])\d{2}\d{4}$';
+
+  // String emailVal = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  // String governmentIdVal = r'^(1[1-9]|21|[37][1-6]|5[1-3]|6[1-5]|[89][12])\d{2}\d{2}([04][1-9]|[1256][0-9]|[37][01])(0[1-9]|1[0-2])\d{2}\d{4}$';
 
   String phoneNum = '';
   String email = '';
@@ -31,6 +33,13 @@ class _RegisterState extends State<Register> {
   String governmentId = '';
 
   bool isValid = false;
+
+  // Texteditor controller for each TextFields
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
+  TextEditingController governmentIdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +79,7 @@ class _RegisterState extends State<Register> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextFormField(
+                        controller: fullNameController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
                         validator: (value) {
@@ -101,12 +111,11 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       TextFormField(
+                        controller: governmentIdController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              !RegExp(governmentIdVal).hasMatch(value)) {
+                          if (value == null || value.isEmpty ) {
                             return kGovernmentIdInvalid;
                           } else if (value.isNotEmpty && value.length < 16) {
                             return kGovernmentIdTooShort;
@@ -134,12 +143,11 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       TextFormField(
+                        controller: phoneNumberController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.phone,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              !RegExp(phoneVal).hasMatch(value)) {
+                          if (value == null || value.isEmpty || !RegExp(phoneVal).hasMatch(value)) {
                             return kPhoneInvalid;
                           } else if (value.isNotEmpty && value.length < 11) {
                             return kPhoneTooShort;
@@ -167,12 +175,11 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       TextFormField(
+                        controller: emailController,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              !RegExp(emailVal).hasMatch(value)) {
+                          if (value == null || value.isEmpty) {
                             return kEmailInvalid;
                           } else {
                             return null;
@@ -227,13 +234,27 @@ class _RegisterState extends State<Register> {
               RoundedButton(
                 width: SizeConfig.screenWidth * 0.8,
                 text: 'Daftar',
-                press: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState?.save();
+                press: registerUser
+                // press: () {
+                //   if (_formKey.currentState!.validate()) {
+                //     _formKey.currentState?.save();
 
-                    Navigator.pushNamed(context, SuccessScreen.routeName);
-                  }
-                },
+                //     RegisterRequestModel model = RegisterRequestModel(phoneNumber: int.parse(phoneNum));
+
+                //     APIService.login(model).then((response) => {
+                //           if (response)
+                //             {
+                //               Navigator.pushNamed(
+                //                 context,
+                //                  VerificationScreen.routeName,
+                //                 arguments: {"phone_number": phoneNum},
+                //               )
+                //             }
+                //         });
+
+                //     Navigator.pushNamed(context, SuccessScreen.routeName);
+                //   }
+                // },
               ),
               Padding(
                 padding:
@@ -266,4 +287,39 @@ class _RegisterState extends State<Register> {
       ],
     );
   }
+
+  void registerUser() async {
+    
+    // Preparing the data
+    String fullName = fullNameController.text;
+    String email = emailController.text;
+    int phoneNumber = int.tryParse(phoneNumberController.text) ?? 0;
+    // String password = passwordController.text;
+    String governmentId = governmentIdController.text;
+    int accountType = 1;
+
+    // Build model
+    RegisterRequestModel requestModel = RegisterRequestModel(
+      fullName: fullName,
+      email: email,
+      phoneNumber: phoneNumber,
+      password: 'Password12345@',
+      governmentId: governmentId,
+      accountType: accountType,
+    );
+    // Call the api service
+    Map<String, dynamic> requestRegist = await APIService.registerUser(requestModel);
+
+    if(requestRegist['success']) {
+      // Navigate to VerificationScreen if success
+      Navigator.pushNamed(context, SuccessScreen.routeName);
+    }
+
+    // Reiii notes >
+    // Kalo kodenya sampe sini, berarti register gagal, kasih error alert atau apalah bebas
+    // Nabeel error
+    // Variable error message : requestRegist['error']
+
+  }
 }
+

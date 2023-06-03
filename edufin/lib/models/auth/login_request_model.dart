@@ -1,15 +1,16 @@
 class LoginRequestModel {
-  int? phoneNumber;
+  String email;
+  String password = "testdoang123";
 
-  LoginRequestModel({this.phoneNumber});
-
-  LoginRequestModel.fromJson(Map<String, dynamic> json) {
-    phoneNumber = json['phone_number'];
-  }
+  LoginRequestModel({
+    required this.email,
+    required this.password
+  });
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone_number'] = this.phoneNumber;
-    return data;
+    return {
+      'email': email,
+      'password': password
+    };
   }
 }
