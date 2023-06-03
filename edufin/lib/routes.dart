@@ -1,5 +1,6 @@
 import 'package:edufin/screens/activity/activity_screen.dart';
 import 'package:edufin/screens/chat/chat_screen.dart';
+// import 'package:edufin/screens/details/card_detail.dart';
 import 'package:edufin/screens/home/home_screen.dart';
 import 'package:edufin/screens/login/login_screen.dart';
 import 'package:edufin/screens/profile/profile._screen.dart';
@@ -23,4 +24,5 @@ final Map<String, WidgetBuilder> routes = {
   ActivityScreen.routeName: (context) => const ActivityScreen(),
   ChatScreen.routeName: (context) => const ChatScreen(),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
+  // CardDetail.routeName: (context) => const CardDetail(),
 };

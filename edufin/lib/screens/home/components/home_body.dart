@@ -1,6 +1,7 @@
 import 'package:edufin/components/navigation_bar.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/card.dart';
+import 'package:edufin/screens/home/components/card_sheet.dart';
 import 'package:edufin/screens/home/components/card_view.dart';
 import 'package:edufin/screens/home/components/home_header.dart';
 import 'package:edufin/screens/home/components/main_background.dart';
@@ -64,7 +65,11 @@ class _MainBodyState extends State<MainBody> {
                             children: [
                               ...List.generate(
                                 demoCard.length,
-                                (index) => CardView(card: demoCard[index]),
+                                (index) => GestureDetector(
+                                  onTap: () =>
+                                      cardSheet(context, demoCard[index]),
+                                  child: CardView(card: demoCard[index]),
+                                ),
                               ),
                             ],
                           ),
