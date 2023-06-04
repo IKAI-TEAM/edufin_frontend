@@ -12,9 +12,9 @@ class MyCard {
 List<MyCard> demoCard = [
   MyCard(
     cardNum: 0687,
-    balance: 1000000,
-    expiryMonth: 07,
-    expiryYear: 09,
+    balance: 0,
+    expiryMonth: 00,
+    expiryYear: 00,
   ),
   MyCard(
     cardNum: 8482,

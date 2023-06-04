@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -22,6 +23,28 @@ class _QrScannerState extends State<QrScanner> {
   Barcode? barcode;
   String? text;
 
+  bool isCodeDetected = false;
+  var addCardPage;
+
+  Future<void> openAddCard(Map<String, dynamic>? decodedJson) async {
+
+    
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        //TANDA EDIT P BELOMAN
+        builder: (BuildContext context) => AddCard(card: demoCard[0], scannedJson: decodedJson)
+      ),
+    );
+
+    if (result != null) {
+      log("result not null");
+      setState(() {
+        isCodeDetected = result;
+      });
+    }
+  }
+
   @override
   void dispose() {
     controller?.dispose();
@@ -40,19 +63,36 @@ class _QrScannerState extends State<QrScanner> {
   void onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
 
-    controller.scannedDataStream.listen((barcode) {
-      setState(() {
-        this.barcode = barcode;
-        text = barcode.code;
-        log(text.toString());
+    controller.scannedDataStream.listen((barcode) async {
+      if(!isCodeDetected) {
+        setState(() {
+          this.barcode = barcode;
+          text = barcode.code;
+          try {
+            Map<String, dynamic> decodedJson = jsonDecode(text.toString());
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            //TANDA EDIT P BELOMAN
-            builder: (BuildContext context) => AddCard(card: demoCard[0]),
-          ),
-        );
-      });
+            isCodeDetected = true;
+            
+            openAddCard(decodedJson);
+
+            // addCardPage = Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     //TANDA EDIT P BELOMAN
+            //     builder: (BuildContext context) => AddCard(card: demoCard[0], scannedJson: decodedJson)
+            //   )
+            // );
+            
+          
+
+          } catch (e, stackTrace) {
+            log(stackTrace.toString());
+            log(e.toString());
+            log("error");
+          }
+
+          return;
+        });
+      }
     });
   }
 
