@@ -1,4 +1,3 @@
-
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/auth/register_request_model.dart';
@@ -115,7 +114,7 @@ class _RegisterState extends State<Register> {
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value == null || value.isEmpty ) {
+                          if (value == null || value.isEmpty) {
                             return kGovernmentIdInvalid;
                           } else if (value.isNotEmpty && value.length < 16) {
                             return kGovernmentIdTooShort;
@@ -147,7 +146,9 @@ class _RegisterState extends State<Register> {
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.phone,
                         validator: (value) {
-                          if (value == null || value.isEmpty || !RegExp(phoneVal).hasMatch(value)) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              !RegExp(phoneVal).hasMatch(value)) {
                             return kPhoneInvalid;
                           } else if (value.isNotEmpty && value.length < 11) {
                             return kPhoneTooShort;
@@ -232,30 +233,30 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               RoundedButton(
-                width: SizeConfig.screenWidth * 0.8,
-                text: 'Daftar',
-                press: registerUser
-                // press: () {
-                //   if (_formKey.currentState!.validate()) {
-                //     _formKey.currentState?.save();
+                  width: SizeConfig.screenWidth * 0.8,
+                  text: 'Daftar',
+                  press: registerUser
+                  // press: () {
+                  //   if (_formKey.currentState!.validate()) {
+                  //     _formKey.currentState?.save();
 
-                //     RegisterRequestModel model = RegisterRequestModel(phoneNumber: int.parse(phoneNum));
+                  //     RegisterRequestModel model = RegisterRequestModel(phoneNumber: int.parse(phoneNum));
 
-                //     APIService.login(model).then((response) => {
-                //           if (response)
-                //             {
-                //               Navigator.pushNamed(
-                //                 context,
-                //                  VerificationScreen.routeName,
-                //                 arguments: {"phone_number": phoneNum},
-                //               )
-                //             }
-                //         });
+                  //     APIService.login(model).then((response) => {
+                  //           if (response)
+                  //             {
+                  //               Navigator.pushNamed(
+                  //                 context,
+                  //                  VerificationScreen.routeName,
+                  //                 arguments: {"phone_number": phoneNum},
+                  //               )
+                  //             }
+                  //         });
 
-                //     Navigator.pushNamed(context, SuccessScreen.routeName);
-                //   }
-                // },
-              ),
+                  //     Navigator.pushNamed(context, SuccessScreen.routeName);
+                  //   }
+                  // },
+                  ),
               Padding(
                 padding:
                     EdgeInsets.only(bottom: getProportionateScreenHeight(16)),
@@ -289,7 +290,6 @@ class _RegisterState extends State<Register> {
   }
 
   void registerUser() async {
-    
     // Preparing the data
     String fullName = fullNameController.text;
     String email = emailController.text;
@@ -308,18 +308,20 @@ class _RegisterState extends State<Register> {
       accountType: accountType,
     );
     // Call the api service
-    Map<String, dynamic> requestRegist = await APIService.registerUser(requestModel);
+    Map<String, dynamic> requestRegist =
+        await APIService.registerUser(requestModel);
 
-    if(requestRegist['success']) {
+    if (requestRegist['success']) {
       // Navigate to VerificationScreen if success
-      Navigator.pushNamed(context, SuccessScreen.routeName);
+      Navigator.pushNamed(
+        context,
+        SuccessScreen.routeName,
+      );
     }
 
     // Reiii notes >
     // Kalo kodenya sampe sini, berarti register gagal, kasih error alert atau apalah bebas
     // Nabeel error
     // Variable error message : requestRegist['error']
-
   }
 }
-

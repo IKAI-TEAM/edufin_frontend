@@ -31,11 +31,12 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Container(
           width: SizeConfig.screenWidth * 0.25,
           decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage(
-              "assets/icons/logo.png",
+            image: DecorationImage(
+              image: AssetImage(
+                "assets/images/logo.png",
+              ),
             ),
-          )),
+          ),
         ),
       ),
     );

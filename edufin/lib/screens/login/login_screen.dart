@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/auth/login_request_model.dart';
-import 'package:edufin/screens/home/home_screen.dart';
 import 'package:edufin/screens/register/register_screen.dart';
 import 'package:edufin/screens/success/success_screen.dart';
 import 'package:edufin/services/api_services.dart';
@@ -22,7 +21,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String passwordVal = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
-  String emailVal = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  String emailVal =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
   String password = '';
   String email = '';
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // Set controller text here
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,12 +160,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                             TextFormField(
-                              
                               controller: passwordController,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.visiblePassword,
                               validator: (value) {
-                                if (value == null || value.isEmpty || !RegExp(passwordVal).hasMatch(value)) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    !RegExp(passwordVal).hasMatch(value)) {
                                   return kPasswordInvalid;
                                 } else {
                                   return null;
@@ -212,20 +213,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: SizeConfig.screenHeight * 0.01,
                     ),
                     RoundedButton(
-                      width: SizeConfig.screenWidth * 0.8,
-                      text: 'Masuk',
-                      press: loginUser
-                      // press: () {
-                      //   if (_formKey.currentState!.validate()) {
-                      //     _formKey.currentState?.save();
+                        width: SizeConfig.screenWidth * 0.8,
+                        text: 'Masuk',
+                        press: loginUser
+                        // press: () {
+                        //   if (_formKey.currentState!.validate()) {
+                        //     _formKey.currentState?.save();
 
-                      //     Navigator.pushNamed(
-                      //       context,
-                      //       HomePage.routeName,
-                      //     );
-                      //   }
-                      // },
-                    ),
+                        //     Navigator.pushNamed(
+                        //       context,
+                        //       HomePage.routeName,
+                        //     );
+                        //   }
+                        // },
+                        ),
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: getProportionateScreenHeight(20)),
@@ -262,7 +263,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void loginUser() async {
-    
     // Preparing the data
     String email = emailController.text;
     // String password_login = passwordController.text;
@@ -270,14 +270,18 @@ class _LoginScreenState extends State<LoginScreen> {
     // Build model
     LoginRequestModel requestModel = LoginRequestModel(
       email: email,
-      password: 'Password12345@'
+      password: 'Password12345@',
     );
     // Call the api service
-    Map<String, dynamic> requestLogin = await APIService.loginUser(requestModel);
+    Map<String, dynamic> requestLogin =
+        await APIService.loginUser(requestModel);
 
-    if(requestLogin['success']) {
+    if (requestLogin['success']) {
       // Navigate to VerificationScreen if success
-      Navigator.pushNamed(context, SuccessScreen.routeName);
+      Navigator.pushNamed(
+        context,
+        SuccessScreen.routeName,
+      );
       return;
     }
 
@@ -287,7 +291,5 @@ class _LoginScreenState extends State<LoginScreen> {
     // Kalo kodenya sampe sini, berarti login gagal, kasih error alert atau apalah bebas
     // Nabeel error
     // Variable error message : requestLogin['error']
-
   }
-
 }

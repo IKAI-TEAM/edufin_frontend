@@ -17,9 +17,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: SizedBox(
-            width: double.infinity,
-            height: SizeConfig.screenHeight,
-            child: const Register(text: 'Parent')),
+          width: double.infinity,
+          height: SizeConfig.screenHeight,
+          child: const Register(text: 'Parent'),
+        ),
       ),
     );
   }
