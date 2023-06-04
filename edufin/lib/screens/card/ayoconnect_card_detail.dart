@@ -48,11 +48,8 @@ class _WebViewPageState extends State<WebViewPage> {
         title: Text('Card Detail'),
       ),
       body: SafeArea(
-        child: SizedBox(
-          height: SizeConfig.screenHeight,
-          child: WebViewWidget(
-            controller: _controller!,
-          ),
+        child: WebViewWidget(
+          controller: _controller!,
         ),
       ),
     );
