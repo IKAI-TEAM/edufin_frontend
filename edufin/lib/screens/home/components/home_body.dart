@@ -108,29 +108,35 @@ class _MainBodyState extends State<MainBody> {
       floatingActionButton: FloatingActionButton(
         elevation: 3,
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return const QrScanner();
-              // Scaffold(
-              //   appBar: AppBar(
-              //     title: Text('Scan QR'),
-              //   ),
-              //   body: SafeArea(
-              //     child: Container(
-              //       height: SizeConfig.screenHeight,
-              //       width: double.infinity,
-              //       child: Column(
-              //         children: [
-              //           Text('data'),
-              //           buildQrView(context),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // );
-            },
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => const QrScanner(),
+            ),
           );
+          // showModalBottomSheet(
+          //   isScrollControlled: true,
+          //   context: context,
+          //   builder: (BuildContext context) {
+          //     return const QrScanner();
+          //     // Scaffold(
+          //     //   appBar: AppBar(
+          //     //     title: Text('Scan QR'),
+          //     //   ),
+          //     //   body: SafeArea(
+          //     //     child: Container(
+          //     //       height: SizeConfig.screenHeight,
+          //     //       width: double.infinity,
+          //     //       child: Column(
+          //     //         children: [
+          //     //           Text('data'),
+          //     //           buildQrView(context),
+          //     //         ],
+          //     //       ),
+          //     //     ),
+          //     //   ),
+          //     // );
+          //   },
+          // );
         },
         backgroundColor: kMainColor,
         child: SvgPicture.asset(

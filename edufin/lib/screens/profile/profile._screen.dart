@@ -1,5 +1,6 @@
 import 'package:edufin/components/navigation_bar.dart';
 import 'package:edufin/constants.dart';
+import 'package:edufin/screens/qr/qr_view.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,12 +11,18 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List onTap = [
+      QrView(),
+    ];
+
     List assets = [
       'assets/icons/qr.svg',
       'assets/icons/profile.svg',
       'assets/icons/logout.svg',
     ];
+
     List text = ['Scan QR Code', 'Profile', 'Log Out'];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -86,52 +93,63 @@ class ProfileScreen extends StatelessWidget {
                     ...List.generate(
                       3,
                       (index) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: getProportionateScreenHeight(12),
-                          ),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: kLineColor,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const QrView(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: getProportionateScreenHeight(12),
+                            ),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: kLineColor,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: getProportionateScreenHeight(15),
-                                    ),
-                                    child: SizedBox(
-                                      width: getProportionateScreenHeight(30),
-                                      child: Center(
-                                        child: SvgPicture.asset(
-                                          assets[index],
-                                          height:
-                                              getProportionateScreenHeight(20),
-                                          width:
-                                              getProportionateScreenHeight(20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: getProportionateScreenHeight(15),
+                                      ),
+                                      child: SizedBox(
+                                        width: getProportionateScreenHeight(30),
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            assets[index],
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    20),
+                                            width: getProportionateScreenHeight(
+                                                20),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    text[index],
-                                    style: TextStyle(
-                                      fontSize:
-                                          getProportionateScreenHeight(14),
-                                      fontWeight: FontWeight.bold,
-                                      color: kTextColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const Icon(Icons.arrow_forward_ios_rounded),
-                            ],
+                                    Text(
+                                      text[index],
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(14),
+                                        fontWeight: FontWeight.bold,
+                                        color: kTextColor,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const Icon(Icons.arrow_forward_ios_rounded),
+                              ],
+                            ),
                           ),
                         );
                       },
