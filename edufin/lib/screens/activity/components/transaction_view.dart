@@ -1,4 +1,5 @@
 import 'package:edufin/constants.dart';
+import 'package:edufin/currency_formatter.dart';
 import 'package:edufin/models/transaction.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class TransactionRow extends StatelessWidget {
             ),
           ),
           Text(
-            '+ ${transaction.amount}',
+            '+ ${CurrencyFormat.convertToIdr(transaction.amount, 0)}',
             style: TextStyle(
               fontSize: getProportionateScreenHeight(16),
               fontWeight: FontWeight.bold,

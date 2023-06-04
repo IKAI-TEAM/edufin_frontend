@@ -2,6 +2,7 @@ import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/card.dart';
 import 'package:edufin/screens/card/card_detail.dart';
+import 'package:edufin/screens/card/edit_card.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +70,9 @@ cardSheet(context, MyCard card) {
             RoundedButton(
               text: 'Modify Card',
               press: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditCard(card: card)),
+                );
               },
               width: SizeConfig.screenHeight,
               padding: getProportionateScreenHeight(10),

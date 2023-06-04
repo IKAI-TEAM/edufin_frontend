@@ -1,6 +1,7 @@
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/card.dart';
+import 'package:edufin/models/transaction.dart';
 import 'package:edufin/screens/card/ayoconnect_card_detail.dart';
 import 'package:edufin/screens/home/components/card_view.dart';
 import 'package:edufin/screens/home/components/section_title.dart';
@@ -144,13 +145,11 @@ class CardDetail extends StatelessWidget {
                   press: () {},
                   tap: false,
                 ),
-                const Column(
-                  children: [
-                    Transaction(),
-                    Transaction(),
-                    Transaction(),
-                  ],
-                ),
+                ...List.generate(
+                  demoTransaction.length,
+                  (index) =>
+                      TransactionView(transaction: demoTransaction[index]),
+                )
               ],
             ),
           ),

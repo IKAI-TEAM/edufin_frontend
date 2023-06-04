@@ -396,13 +396,12 @@ class AddCard extends StatelessWidget {
     int validity;
   }
 
-  String setInitialValue(keyName)  {
+  String setInitialValue(keyName) {
     log("scanned");
-    if(scannedJson == null) {
+    if (scannedJson == null) {
       return '';
     }
 
     return scannedJson?[keyName];
   }
-
 }

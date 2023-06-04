@@ -1,3 +1,4 @@
+import 'package:edufin/components/float_button.dart';
 import 'package:edufin/components/navigation_bar.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/transaction.dart';
@@ -43,8 +44,8 @@ class ActivityScreen extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom: getProportionateScreenHeight(8),
                               top: getProportionateScreenHeight(20)),
-                          child: const Text(
-                            '16 May 2023',
+                          child: Text(
+                            transactionDay[i][0].date,
                           ),
                         ),
                         ...List.generate(
@@ -63,15 +64,7 @@ class ActivityScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 3,
-        onPressed: () {},
-        backgroundColor: kMainColor,
-        child: SvgPicture.asset(
-          'assets/icons/scan.svg',
-          width: getProportionateScreenHeight(30),
-        ),
-      ),
+      floatingActionButton: const FloatButton(),
       bottomNavigationBar: const NavBar(currentTab: 1),
     );
   }

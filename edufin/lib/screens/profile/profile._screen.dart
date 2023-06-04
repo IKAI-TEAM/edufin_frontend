@@ -1,3 +1,4 @@
+import 'package:edufin/components/float_button.dart';
 import 'package:edufin/components/navigation_bar.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/screens/qr/qr_view.dart';
@@ -162,15 +163,7 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 3,
-        onPressed: () {},
-        backgroundColor: kMainColor,
-        child: SvgPicture.asset(
-          'assets/icons/scan.svg',
-          width: getProportionateScreenHeight(30),
-        ),
-      ),
+      floatingActionButton: const FloatButton(),
       bottomNavigationBar: const NavBar(currentTab: 2),
     );
   }

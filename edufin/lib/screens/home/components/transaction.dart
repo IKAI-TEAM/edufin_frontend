@@ -1,11 +1,16 @@
 import 'package:edufin/constants.dart';
+import 'package:edufin/currency_formatter.dart';
+import 'package:edufin/models/transaction.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
-class Transaction extends StatelessWidget {
-  const Transaction({
+class TransactionView extends StatelessWidget {
+  const TransactionView({
     super.key,
+    required this.transaction,
   });
+
+  final Transaction transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,7 @@ class Transaction extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Nama Merchant',
+                        transaction.type,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: getProportionateScreenHeight(16),
@@ -57,7 +62,7 @@ class Transaction extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'April, 11 2023',
+                        transaction.date,
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -72,15 +77,15 @@ class Transaction extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '- Rp20.000',
+                  CurrencyFormat.convertToIdr(transaction.amount, 0),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: getProportionateScreenHeight(15),
-                    color: kErrorColor,
+                    color: kTextColor,
                   ),
                 ),
                 Text(
-                  '04.00 AM',
+                  transaction.time,
                   style: TextStyle(
                     fontSize: getProportionateScreenHeight(12),
                   ),
