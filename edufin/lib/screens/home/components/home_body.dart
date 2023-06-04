@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:edufin/components/float_button.dart';
 import 'package:edufin/components/navigation_bar.dart';
 import 'package:edufin/constants.dart';
@@ -14,6 +16,7 @@ import 'package:edufin/screens/home/components/transaction.dart';
 import 'package:edufin/size_config.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:edufin/services/local_cards_services.dart';
 
 class MainBody extends StatefulWidget {
   const MainBody({super.key});
@@ -23,13 +26,42 @@ class MainBody extends StatefulWidget {
 }
 
 class _MainBodyState extends State<MainBody> {
+  late Future<List<Map<String, dynamic>>> cardList;
+
   final _controller = PageController();
 
   bool noCard = false;
   bool noTransaction = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    cardList = localCardsServices.getCardList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: localCardsServices.getCardList(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+              child: CircularProgressIndicator(), // Show a loading indicator while fetching data
+            );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final cardList = snapshot.data!;
+          log(cardList.toString());
+          return buildCard(cardList);
+        } else {
+          return Text('No data available');
+        }
+      },
+    );
+  }
+
+  Widget buildCard(List<Map<String, dynamic>> cardList) {
     return Scaffold(
       body: MainBackground(
         child: SingleChildScrollView(
@@ -38,7 +70,7 @@ class _MainBodyState extends State<MainBody> {
             maintainBottomViewPadding: true,
             child: Column(
               children: [
-                const HomeHeader(),
+                HomeHeader(),
                 noCard
                     ? const NoCard()
                     : Column(
@@ -55,10 +87,13 @@ class _MainBodyState extends State<MainBody> {
                                 controller: _controller,
                                 children: [
                                   ...List.generate(
-                                    demoCard.length,
+                                    cardList.length,
+                                    
                                     (index) => GestureDetector(
-                                      onTap: () =>
-                                          cardSheet(context, demoCard[index]),
+                                      // ignore: avoid_print
+                                      // List dari cardList 
+
+                                      onTap: () => cardSheet(context, demoCard[index]),
                                       child: CardView(card: demoCard[index]),
                                     ),
                                   ),
@@ -104,4 +139,8 @@ class _MainBodyState extends State<MainBody> {
       bottomNavigationBar: const NavBar(currentTab: 0),
     );
   }
+
+
+
 }
+

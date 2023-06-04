@@ -1,17 +1,46 @@
+import 'dart:developer';
+
 import 'package:edufin/constants.dart';
+import 'package:edufin/services/shared_service.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:edufin/services/shared_service.dart';
 
-class HomeHeader extends StatelessWidget {
-  const HomeHeader({
-    super.key,
-  });
+class HomeHeader extends StatefulWidget {
+  HomeHeader({Key? key}) : super(key: key);
 
+  @override
+  _HomeHeaderState createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  late Future<Map<String, dynamic>> userInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    userInfo = SharedService.getUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
-    
+    return FutureBuilder<Map<String, dynamic>>(
+      future: userInfo,
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final userInfo = snapshot.data!;
+          return buildHeader(userInfo);
+        } else {
+          return Text('No data available');
+        }
+      },
+    );
+  }
+
+  Widget buildHeader(Map<String, dynamic> userInfo) {
     return Padding(
       padding: EdgeInsets.only(
         left: getProportionateScreenWidth(20),
@@ -24,20 +53,6 @@ class HomeHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Container(
-              //   width: SizeConfig.screenWidth * 0.12,
-              //   height: SizeConfig.screenWidth * 0.12,
-              //   decoration: const BoxDecoration(
-              //     image: DecorationImage(
-              //       image: NetworkImage(
-              //           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"),
-              //       fit: BoxFit.cover,
-              //     ),
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(30),
-              //     ),
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(15),
@@ -51,17 +66,17 @@ class HomeHeader extends StatelessWidget {
                     Text(
                       "Hello,",
                       style: TextStyle(
-                          fontSize: getProportionateScreenHeight(14),
-                          color: kTextColor),
+                        fontSize: getProportionateScreenHeight(14),
+                        color: kTextColor,
+                      ),
                     ),
                     Text(
-                      "Nabeel Muhammad Diaz",
+                      userInfo['fullName'] + " (" + userInfo['accountType'] +")" , // Use userInfo fullName here
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: getProportionateScreenHeight(18),
                         color: kTextColor,
                       ),
-                      // overflow: TextOverflow.ellipsis,
                     )
                   ],
                 ),

@@ -270,8 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
       password: password_login,
     );
     // Call the api service
-    Map<String, dynamic> requestLogin =
-        await APIService.loginUser(requestModel);
+    Map<String, dynamic> requestLogin = await APIService.loginUser(requestModel);
 
     if (requestLogin['success']) {
       log("saksess");

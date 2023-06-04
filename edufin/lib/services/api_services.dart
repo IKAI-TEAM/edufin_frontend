@@ -72,6 +72,8 @@ class APIService {
         await SharedService.setToken(token);
         await SharedService.setUserInfo(responseBody['userData']);
 
+        await SharedService.saveCardsInfo(responseBody['card']);
+        
       }
 
       return {'success': true };
