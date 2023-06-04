@@ -6,6 +6,7 @@ import 'package:edufin/models/auth/login_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedService {
+  
   static Future<bool> isLoggedIn() async {
     var isCacheKeyExist = await APICacheManager().isAPICacheKeyExist("login_details");
 
@@ -25,22 +26,34 @@ class SharedService {
   }
 
   static Future<void> setToken(String token) async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
-
     return;
   }
 
   static Future<String?> getToken() async {
-    var isCacheKeyExist = await APICacheManager().isAPICacheKeyExist("token");
 
-    if (isCacheKeyExist) {
-      var cacheData = await APICacheManager().getCacheData("token");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
 
-      return cacheData.syncData;
+    if(token == null) {
+      return null;
     }
 
-    return null;
+    return token;
   }
+
+  static Future<void> setUserInfo(Map<String, dynamic> userInfo) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+    prefs.setString("email", userInfo['email']);
+    prefs.setString("fullName", userInfo['fullName']);
+    prefs.setString("phoneNumber", userInfo['phoneNumber']);
+    prefs.setString("governmentId", userInfo['governmentId']);
+    prefs.setString("accountType", userInfo['accountType']);
+
+    return;
+  }
+
+
 }

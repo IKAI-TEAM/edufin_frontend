@@ -1,14 +1,17 @@
 import 'package:edufin/constants.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:edufin/services/shared_service.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     super.key,
   });
 
+
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: EdgeInsets.only(
         left: getProportionateScreenWidth(20),
@@ -46,7 +49,7 @@ class HomeHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      "Good Morning",
+                      "Hello,",
                       style: TextStyle(
                           fontSize: getProportionateScreenHeight(14),
                           color: kTextColor),

@@ -56,23 +56,28 @@ class APIService {
       final responseBody = jsonDecode(response.body);
 
       log(response.body.toString());
-      if (response.statusCode == 200) {
-
-        if(responseBody['error'] != null) {
-          return {'success': false, 'error': responseBody['error']};
-        }
-
-				String? bearerToken = response.headers['authorization'];
-
-				if (bearerToken != null && bearerToken.startsWith('Bearer ')) {
-					String? token = bearerToken.substring(7); // Remove 'Bearer ' prefix
-          await SharedService.setToken(token);					
-				}
-
-        return {'success': true };
+      
+      if (response.statusCode != 200) {
+        return {'success': false, 'error': 'Server error'};
       }
 
-      return {'success': false, 'error': 'Server error'};
+      if(responseBody['error'] != null) {
+        return {'success': false, 'error': responseBody['error']};
+      }
+
+      String? bearerToken = response.headers['authorization'];
+
+      if (bearerToken != null && bearerToken.startsWith('Bearer ')) {
+        String? token = bearerToken.substring(7); // Remove 'Bearer ' prefix
+        await SharedService.setToken(token);
+        await SharedService.setUserInfo(responseBody['userData']);
+
+      }
+
+      return {'success': true };
+    
+
+      
     } catch (e, stackTrace) {
       log('Error: ${e.toString()}');
       log('StackTrace: ${stackTrace.toString()}');
