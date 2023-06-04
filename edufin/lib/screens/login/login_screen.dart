@@ -20,9 +20,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String passwordVal = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
-  String emailVal =
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  // String passwordVal = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
+  // String emailVal = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
   String password = '';
   String email = '';
@@ -131,8 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value == null ||
-                                    value.isEmpty ||
-                                    !RegExp(emailVal).hasMatch(value)) {
+                                    value.isEmpty) {
                                   return kEmailInvalid;
                                 } else {
                                   return null;
@@ -165,8 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               keyboardType: TextInputType.visiblePassword,
                               validator: (value) {
                                 if (value == null ||
-                                    value.isEmpty ||
-                                    !RegExp(passwordVal).hasMatch(value)) {
+                                    value.isEmpty) {
                                   return kPasswordInvalid;
                                 } else {
                                   return null;
@@ -265,18 +262,20 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginUser() async {
     // Preparing the data
     String email = emailController.text;
-    // String password_login = passwordController.text;
+    String password_login = passwordController.text;
 
     // Build model
     LoginRequestModel requestModel = LoginRequestModel(
       email: email,
-      password: 'Password12345@',
+      password: password_login,
     );
     // Call the api service
     Map<String, dynamic> requestLogin =
         await APIService.loginUser(requestModel);
 
     if (requestLogin['success']) {
+      log("saksess");
+      log("Pushh");
       // Navigate to VerificationScreen if success
       Navigator.pushNamed(
         context,

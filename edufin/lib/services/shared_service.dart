@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:api_cache_manager/api_cache_manager.dart';
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:edufin/models/auth/login_response_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedService {
   static Future<bool> isLoggedIn() async {
@@ -25,11 +26,10 @@ class SharedService {
 
   static Future<void> setToken(String token) async {
 
-    APICacheDBModel cacheModel = APICacheDBModel(key: "token", syncData: token);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', token);
 
-    log(token.toString());
-
-    await APICacheManager().addCacheData(cacheModel);
+    return;
   }
 
   static Future<String?> getToken() async {

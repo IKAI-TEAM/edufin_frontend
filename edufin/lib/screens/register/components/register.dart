@@ -37,7 +37,7 @@ class _RegisterState extends State<Register> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  // TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController governmentIdController = TextEditingController();
 
   @override
@@ -175,6 +175,7 @@ class _RegisterState extends State<Register> {
                           );
                         },
                       ),
+                      
                       TextFormField(
                         controller: emailController,
                         textInputAction: TextInputAction.next,
@@ -205,6 +206,29 @@ class _RegisterState extends State<Register> {
                             },
                           );
                         },
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return kEmailInvalid;
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'text ini jadiin password',
+                          labelText: 'Password',
+                        ),
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(16),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(30),
+                          FilteringTextInputFormatter.singleLineFormatter,
+                        ],
                       ),
                     ],
                   ),
@@ -294,7 +318,7 @@ class _RegisterState extends State<Register> {
     String fullName = fullNameController.text;
     String email = emailController.text;
     int phoneNumber = int.tryParse(phoneNumberController.text) ?? 0;
-    // String password = passwordController.text;
+    String password = passwordController.text;
     String governmentId = governmentIdController.text;
     int accountType = 1;
 
@@ -303,7 +327,7 @@ class _RegisterState extends State<Register> {
       fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
-      password: 'Password12345@',
+      password: password,
       governmentId: governmentId,
       accountType: accountType,
     );
@@ -313,10 +337,7 @@ class _RegisterState extends State<Register> {
 
     if (requestRegist['success']) {
       // Navigate to VerificationScreen if success
-      Navigator.pushNamed(
-        context,
-        SuccessScreen.routeName,
-      );
+      Navigator.pushNamed(context, SuccessScreen.routeName);
     }
 
     // Reiii notes >

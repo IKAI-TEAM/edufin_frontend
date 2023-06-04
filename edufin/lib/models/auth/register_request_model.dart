@@ -2,7 +2,7 @@ class RegisterRequestModel {
   String fullName;
   String email;
   int phoneNumber;
-  String password = "testdoang123";
+  String password;
   String governmentId;
   int accountType;
 

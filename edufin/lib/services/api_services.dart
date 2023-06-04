@@ -55,22 +55,38 @@ class APIService {
       final response = await http.post(url, headers: headers, body: body);
       final responseBody = jsonDecode(response.body);
 
+      log(response.body.toString());
       if (response.statusCode == 200) {
-				
+
+        if(responseBody['error'] != null) {
+          return {'success': false, 'error': responseBody['error']};
+        }
+
 				String? bearerToken = response.headers['authorization'];
-				
+
 				if (bearerToken != null && bearerToken.startsWith('Bearer ')) {
-					String token = bearerToken.substring(7); // Remove 'Bearer ' prefix
-					await SharedService.setToken(token);					
+					String? token = bearerToken.substring(7); // Remove 'Bearer ' prefix
+          await SharedService.setToken(token);					
 				}
 
-        return {'success': true, 'message': responseBody['message'] };
+        return {'success': true };
       }
 
-      return {'success': false, 'error': responseBody['error']};
+      return {'success': false, 'error': 'Server error'};
+    } catch (e, stackTrace) {
+      log('Error: ${e.toString()}');
+      log('StackTrace: ${stackTrace.toString()}');
 
-    } catch (e) {
+      // Get line number and file name from stackTrace
+      if (stackTrace is StackTrace) {
+        final lines = stackTrace.toString().split('\n');
+        if (lines.length > 0) {
+          final lineInfo = lines[0];
+          log('Line Info: $lineInfo');
+        }
+      }
       
+      log(e.toString());
 			return {'success': false, 'error': 'Failed to connect to the server'};
     
 		}
