@@ -11,7 +11,6 @@ import 'package:edufin/screens/qr/qr_scanner.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 
 class MainBody extends StatefulWidget {
@@ -113,30 +112,6 @@ class _MainBodyState extends State<MainBody> {
               builder: (BuildContext context) => const QrScanner(),
             ),
           );
-          // showModalBottomSheet(
-          //   isScrollControlled: true,
-          //   context: context,
-          //   builder: (BuildContext context) {
-          //     return const QrScanner();
-          //     // Scaffold(
-          //     //   appBar: AppBar(
-          //     //     title: Text('Scan QR'),
-          //     //   ),
-          //     //   body: SafeArea(
-          //     //     child: Container(
-          //     //       height: SizeConfig.screenHeight,
-          //     //       width: double.infinity,
-          //     //       child: Column(
-          //     //         children: [
-          //     //           Text('data'),
-          //     //           buildQrView(context),
-          //     //         ],
-          //     //       ),
-          //     //     ),
-          //     //   ),
-          //     // );
-          //   },
-          // );
         },
         backgroundColor: kMainColor,
         child: SvgPicture.asset(

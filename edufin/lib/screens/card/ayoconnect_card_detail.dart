@@ -1,3 +1,4 @@
+import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -43,8 +44,16 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebViewWidget(
-        controller: _controller!,
+      appBar: AppBar(
+        title: Text('Card Detail'),
+      ),
+      body: SafeArea(
+        child: SizedBox(
+          height: SizeConfig.screenHeight,
+          child: WebViewWidget(
+            controller: _controller!,
+          ),
+        ),
       ),
     );
   }

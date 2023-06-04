@@ -1,6 +1,7 @@
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/card.dart';
+import 'package:edufin/screens/card/ayoconnect_card_detail.dart';
 import 'package:edufin/screens/home/components/card_view.dart';
 import 'package:edufin/screens/home/components/section_title.dart';
 import 'package:edufin/screens/home/components/transaction.dart';
@@ -161,7 +162,13 @@ class CardDetail extends StatelessWidget {
         ),
         child: RoundedButton(
           text: 'Card Detail',
-          press: () {},
+          press: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const WebViewPage(),
+              ),
+            );
+          },
           width: SizeConfig.screenWidth,
         ),
       ),
