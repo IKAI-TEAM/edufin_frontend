@@ -1,8 +1,8 @@
 MAJOR :
 - View card webview
-- Profile QR Code (Sistemnya kalo di klik, nanti keluar qr code, qr code nya ngambil dari localStorage)
-- - Qr code better kalo lu tambahin package buat generate qr code nya sendiri sih di flutter
-- - Isi qr code nya : { email : emailuser@domain.com }
+- Profile QR Code (Sistemnya kalo di klik, nanti keluar qr code, qr code nya ngambil dari localStorage) don
+- - Qr code better kalo lu tambahin package buat generate qr code nya sendiri sih di flutter don
+- - Isi qr code nya : { email : emailuser@domain.com } don
 - QR Code scanner (Abis scan, loncat ke add kartu page tapi udah ke isi semua, tinggal limit sama optional input yang buat kartu per x day)
 - Bikin if misalnya kartu dan tx belum ada gimana
  

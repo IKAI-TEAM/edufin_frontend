@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:edufin/constants.dart';
+import 'package:edufin/models/card.dart';
+import 'package:edufin/screens/card/add_card.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -17,19 +20,12 @@ class _QrScannerState extends State<QrScanner> {
 
   QRViewController? controller;
   Barcode? barcode;
+  String? text;
 
   @override
   void dispose() {
     controller?.dispose();
     super.dispose();
-  }
-
-  void onQRViewCreated(QRViewController controller) {
-    setState(() => this.controller = controller);
-
-    controller.scannedDataStream.listen((barcode) {
-      setState(() => this.barcode = barcode);
-    });
   }
 
   @override
@@ -39,6 +35,25 @@ class _QrScannerState extends State<QrScanner> {
       await controller!.pauseCamera();
     }
     controller!.resumeCamera();
+  }
+
+  void onQRViewCreated(QRViewController controller) {
+    setState(() => this.controller = controller);
+
+    controller.scannedDataStream.listen((barcode) {
+      setState(() {
+        this.barcode = barcode;
+        text = barcode.code;
+        log(text.toString());
+
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            //TANDA EDIT P BELOMAN
+            builder: (BuildContext context) => AddCard(card: demoCard[0]),
+          ),
+        );
+      });
+    });
   }
 
   @override
