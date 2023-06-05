@@ -87,7 +87,7 @@ class _CardViewState extends State<CardView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ...List.generate(
-                  4,
+                  3,
                   (index) {
                     return Text(
                       'XXXX',
@@ -98,6 +98,14 @@ class _CardViewState extends State<CardView> {
                       ),
                     );
                   },
+                ),
+                Text(
+                  widget.card.cardNum.toString(),
+                  style: TextStyle(
+                    color: kBackgroundColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: getProportionateScreenHeight(18),
+                  ),
                 )
               ],
             ),

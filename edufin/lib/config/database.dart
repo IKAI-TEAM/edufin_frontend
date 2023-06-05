@@ -70,7 +70,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE $table (
         $columnCardId TEXT PRIMARY KEY,
-        $columnMaskedCard TEXT,
+        $columnMaskedCard INTEGER,
         $columnExpiryMonth INTEGER, 
         $columnExpiryYear INTEGER,
         $columnStatus TEXT
