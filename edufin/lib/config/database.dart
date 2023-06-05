@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static final _databaseName = 'edufin9.db';
+  static final _databaseName = 'edufin10.db';
   static final _databaseVersion = 3;
 
   // Card table
@@ -16,6 +16,11 @@ class DatabaseHelper {
   static final columnExpiryYear = 'expiry_year';
   static final columnStatus = 'status';
 
+  // History table
+  static final tableHistory = 'transaction_histories';
+  static final columnTransactionId = 'transaction_id';
+  static final columnAmount = 'amount';
+  static final columnMerchantName= 'merchant_name';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -50,6 +55,15 @@ class DatabaseHelper {
         $columnStatus TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE $tableHistory (
+        $columnTransactionId TEXT PRIMARY KEY,
+        $columnCardId TEXT,
+        $columnAmount INTEGER,
+        $columnMerchantName TEXT
+      )
+    ''');
   }
 
   void onUpgrade(Database db, int oldVersion, int newVersion) {
@@ -78,6 +92,23 @@ class DatabaseHelper {
     ''');
   }
 
+  Future<void> rebuildHistory() async {
+    Database db = await instance.database;
+
+    // Delete the existing cards table
+    await db.execute('DROP TABLE IF EXISTS $table');
+    
+    // Create a new histories table
+    await db.execute('''
+      CREATE TABLE $tableHistory (
+        $columnTransactionId TEXT PRIMARY KEY,
+        $columnCardId TEXT,
+        $columnAmount INTEGER,
+        $columnMerchantName TEXT
+      )
+    ''');
+  }
+
   Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(table, row);
@@ -85,7 +116,11 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
-    return await db.query(table);
+
+    List<Map<String, Object?>> queryInCards = await db.query(table);
+    log(queryInCards.toString());
+
+    return queryInCards;
   }
 
   Future<List<Map<String, dynamic>>> queryRowsByCardId(String cardId) async {
@@ -96,4 +131,25 @@ class DatabaseHelper {
       whereArgs: [cardId],
     );
   }
+
+  // Transaction
+  Future<int> insertHistory(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    return await db.insert(tableHistory, row);
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllRowsHistories() async {
+    Database db = await instance.database;
+    return await db.query(tableHistory);
+  }
+
+  Future<List<Map<String, dynamic>>> queryRowsByTransactionId(String transactionId) async {
+    Database db = await instance.database;
+    return await db.query(
+      tableHistory,
+      where: '$columnTransactionId = ?',
+      whereArgs: [transactionId],
+    );
+  }
+
 }

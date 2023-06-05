@@ -73,6 +73,35 @@ class SharedService {
     }
   }
 
+  static Future<void> saveHistoryInfo(List<dynamic> historiesList) async {
+  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  
+  for (var historyData in historiesList) {
+    log(historyData.toString());
+
+    String cardId = historyData['cardId'];
+    String transactionId = historyData['transactionId'];
+    int amount = historyData['amount'];
+    String merchantName = historyData['merchant']['name'];
+
+    // Check if the card already exists in the database
+    List<Map<String, dynamic>> existingHistory = await databaseHelper.queryRowsByTransactionId(transactionId);
+    if (existingHistory.isEmpty) {
+      // Card doesn't exist, insert it into the database
+      Map<String, dynamic> historyMap = {
+        DatabaseHelper.columnCardId: cardId,
+        DatabaseHelper.columnTransactionId: transactionId,
+        DatabaseHelper.columnAmount: amount,
+        DatabaseHelper.columnMerchantName: merchantName,
+      };
+
+      await databaseHelper.insertHistory(historyMap);
+      log("Inserted history");
+    }
+  }
+}
+
+
   static Future<void> setUserInfo(Map<String, dynamic> userInfo) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

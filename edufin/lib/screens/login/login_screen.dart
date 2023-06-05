@@ -250,10 +250,9 @@ class _LoginScreenState extends State<LoginScreen> {
       log("saksess");
       log("Pushh");
       // Navigate to VerificationScreen if success
-      Navigator.pushNamed(
-        context,
-        SuccessScreen.routeName,
-      );
+      await APIService.getUserHistory();
+
+      Navigator.pushNamed( context, SuccessScreen.routeName );
       return;
     }
 

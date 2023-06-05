@@ -60,7 +60,7 @@ class TransactionView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          transaction.type,
+                          transaction.merchantName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: getProportionateScreenHeight(16),
@@ -68,7 +68,7 @@ class TransactionView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          transaction.date,
+                          "Payment",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -91,7 +91,8 @@ class TransactionView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    transaction.time,
+                    // Payment date homepage
+                    "14 April 2023",
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(12),
                     ),

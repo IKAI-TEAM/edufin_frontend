@@ -42,7 +42,7 @@ class TransactionRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        transaction.type,
+                        "transaction.payment",
                         style: TextStyle(
                           color: kTextColor,
                           fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class TransactionRow extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        transaction.description,
+                        "transaction.description",
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(14),
                         ),

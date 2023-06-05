@@ -17,6 +17,7 @@ import 'package:edufin/size_config.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:edufin/services/local_cards_services.dart';
+import 'package:edufin/services/local_histories_services.dart';
 
 class MainBody extends StatefulWidget {
   const MainBody({super.key});
@@ -27,7 +28,7 @@ class MainBody extends StatefulWidget {
 
 class _MainBodyState extends State<MainBody> {
   late Future<List<Map<String, dynamic>>> cardList;
-
+  late Future<List<Map<String, dynamic>>> historyList;
   final _controller = PageController();
 
   bool noCard = false;
@@ -37,32 +38,38 @@ class _MainBodyState extends State<MainBody> {
   void initState() {
     super.initState();
     cardList = localCardsServices.getCardList();
+    historyList = localHistoriesServices.getHistoryList();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: localCardsServices.getCardList(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child:
-                CircularProgressIndicator(), // Show a loading indicator while fetching data
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          final cardList = snapshot.data!;
-          log(cardList.toString());
-          return buildCard(cardList);
-        } else {
-          return Text('No data available');
-        }
-      },
-    );
-  }
 
-  Widget buildCard(List<Map<String, dynamic>> cardList) {
+@override
+Widget build(BuildContext context) {
+  return FutureBuilder(
+    future: Future.wait([cardList, historyList]),
+    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(
+          child: CircularProgressIndicator(), // Show a loading indicator while fetching data
+        );
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else if (snapshot.hasData) {
+        final List<Map<String, dynamic>> cardListData = snapshot.data![0];
+        final List<Map<String, dynamic>> historyListData = snapshot.data![1];
+        log(cardListData.toString());
+        log(historyListData.toString());
+        return buildCard(cardListData, historyListData);
+      } else {
+        return Text('No data available');
+      }
+      
+    },
+  );
+}
+
+  Widget buildCard(List<Map<String, dynamic>> cardList, List<Map<String, dynamic>> historyList) {
+    log(cardList.toString());
+    log("cardlist");
     return Scaffold(
       body: MainBackground(
         child: SingleChildScrollView(
@@ -140,14 +147,14 @@ class _MainBodyState extends State<MainBody> {
                   press: () {},
                   tap: false,
                 ),
-                demoTransaction.isEmpty
+                historyList.isEmpty
                     ? const NoTransaction()
                     : Column(
                         children: [
                           ...List.generate(
-                            demoTransaction.length,
+                            historyList.length,
                             (index) => TransactionView(
-                              transaction: demoTransaction[index],
+                              transaction: Transaction(transactionId: historyList[index]['transaction_id'], merchantName: historyList[index]['merchant_name'], amount: historyList[index]['amount']),
                             ),
                           )
                         ],

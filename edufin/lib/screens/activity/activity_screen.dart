@@ -45,7 +45,7 @@ class ActivityScreen extends StatelessWidget {
                               bottom: getProportionateScreenHeight(8),
                               top: getProportionateScreenHeight(20)),
                           child: Text(
-                            transactionDay[i][0].date,
+                            "14 April 2023",
                           ),
                         ),
                         ...List.generate(
