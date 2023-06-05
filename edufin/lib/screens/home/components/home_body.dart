@@ -140,7 +140,7 @@ class _MainBodyState extends State<MainBody> {
                   press: () {},
                   tap: false,
                 ),
-                noTransaction
+                demoTransaction.isEmpty
                     ? const NoTransaction()
                     : Column(
                         children: [
