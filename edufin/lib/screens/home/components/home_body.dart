@@ -30,7 +30,7 @@ class _MainBodyState extends State<MainBody> {
 
   final _controller = PageController();
 
-  bool noCard = true;
+  bool noCard = false;
   bool noTransaction = true;
 
   @override
@@ -56,7 +56,7 @@ class _MainBodyState extends State<MainBody> {
           log(cardList.toString());
           return buildCard(cardList);
         } else {
-          return const Text('No data available');
+          return Text('No data available');
         }
       },
     );
@@ -71,69 +71,66 @@ class _MainBodyState extends State<MainBody> {
             maintainBottomViewPadding: true,
             child: Column(
               children: [
-                const HomeHeader(),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: getProportionateScreenHeight(10),
-                        bottom: getProportionateScreenHeight(25),
-                      ),
-                      child: SizedBox(
-                        height: SizeConfig.screenHeight * 0.28,
-                        child: PageView(
-                          scrollDirection: Axis.horizontal,
-                          controller: _controller,
-                          children: [
-                            ...List.generate(
-                              !noCard ? cardList.length : 0,
-                              (index) {
-                                // print(
-                                //     'Index: ${cardList[index]['masked_card'].runtimeType}');
-                                return GestureDetector(
-                                  // ignore: avoid_print
-                                  // List dari cardList
-                                  onTap: () => cardSheet(
-                                    context,
-                                    MyCard(
-                                      cardNum: cardList[index]['masked_card'],
-                                      balance: 0,
-                                      expiryMonth: cardList[index]
-                                          ['expiry_month'],
-                                      expiryYear: cardList[index]
-                                          ['expiry_year'],
-                                    ),
-                                  ),
-
-                                  child: CardView(
-                                      card: MyCard(
-                                          cardNum: cardList[index]
-                                              ['masked_card'],
-                                          balance: 0,
-                                          expiryMonth: cardList[index]
-                                              ['expiry_month'],
-                                          expiryYear: cardList[index]
-                                              ['expiry_year'])),
-                                );
-                              },
+                HomeHeader(),
+                noCard
+                    ? const NoCard()
+                    : Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: getProportionateScreenHeight(10),
+                              bottom: getProportionateScreenHeight(25),
                             ),
-                            const NoCard()
-                          ],
-                        ),
+                            child: SizedBox(
+                              height: SizeConfig.screenHeight * 0.28,
+                              child: PageView(
+                                scrollDirection: Axis.horizontal,
+                                controller: _controller,
+                                children: [
+                                  ...List.generate(
+                                    cardList.length,
+                                    (index) { 
+                                        print('Index: ${cardList[index]['masked_card'].runtimeType}');
+                                        return GestureDetector(
+                                        // ignore: avoid_print
+                                        // List dari cardList
+                                        onTap: () => cardSheet(
+                                          context,
+                                          MyCard(
+                                            cardNum: cardList[index]['masked_card'],
+                                            balance: 0,
+                                            expiryMonth: cardList[index]['expiry_month'],
+                                            expiryYear: cardList[index]['expiry_year'],
+                                          ),
+                                        ),
+                                        child: CardView(
+                                            card: MyCard(
+                                                cardNum: cardList[index]['masked_card'],
+                                                balance: 0,
+                                                expiryMonth: cardList[index]['expiry_month'],
+                                                expiryYear: cardList[index]['expiry_year']
+                                            )
+                                        ),
+                                      );
+                                    }
+                                  ),
+                                  const NoCard()
+                                ],
+                              ),
+                            ),
+                          ),
+                          SmoothPageIndicator(
+                            controller: _controller,
+                            count: cardList.length,
+                            effect: WormEffect(
+                              type: WormType.underground,
+                              activeDotColor: kMainColor,
+                              dotHeight: getProportionateScreenHeight(10),
+                              dotWidth: getProportionateScreenHeight(10),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    SmoothPageIndicator(
-                      controller: _controller,
-                      count: noCard ? 0 : cardList.length + 1,
-                      effect: WormEffect(
-                        type: WormType.underground,
-                        activeDotColor: kMainColor,
-                        dotHeight: getProportionateScreenHeight(10),
-                        dotWidth: getProportionateScreenHeight(10),
-                      ),
-                    ),
-                  ],
-                ),
                 SectionTitle(
                   text: "Transaksi",
                   press: () {},

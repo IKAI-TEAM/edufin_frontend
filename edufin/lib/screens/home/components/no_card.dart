@@ -7,7 +7,7 @@ class NoCard extends StatefulWidget {
   const NoCard({super.key});
 
   @override
-  State<NoCard> createState() => _NoCardState();
+  _NoCardState createState() => _NoCardState();
 }
 
 class _NoCardState extends State<NoCard> {
@@ -16,8 +16,7 @@ class _NoCardState extends State<NoCard> {
   @override
   void initState() {
     super.initState();
-    userInfo = SharedService.getUserInfo();
-    // Replace getUserInfo with your actual function to fetch user info
+    userInfo = SharedService.getUserInfo(); // Replace getUserInfo with your actual function to fetch user info
   }
 
   @override
@@ -42,9 +41,7 @@ class _NoCardState extends State<NoCard> {
 
   Widget buildNoCardWidget(Map<String, dynamic> userInfo) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenHeight(20),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenHeight(20)),
       child: Container(
         padding: EdgeInsets.only(
           bottom: getProportionateScreenHeight(20),
@@ -69,16 +66,12 @@ class _NoCardState extends State<NoCard> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SvgPicture.asset(
-                  userInfo['accountType'] == 'parents'
-                      ? 'assets/icons/add.svg'
-                      : 'assets/icons/add.svg',
+                  userInfo['accountType'] == 'parents' ? 'assets/icons/add.svg' : 'assets/icons/add.svg',
                   height: getProportionateScreenHeight(30),
                   width: getProportionateScreenHeight(30),
                 ),
               ),
-              Text(userInfo['accountType'] == 'parents'
-                  ? 'Add Card'
-                  : 'Request Card'), // Display user name if available
+              Text(userInfo['accountType'] == 'parents' ? 'Add Card' : 'Request Card'), // Display user name if available
             ],
           ),
         ),
