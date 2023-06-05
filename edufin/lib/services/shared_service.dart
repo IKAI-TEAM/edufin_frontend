@@ -50,9 +50,9 @@ class SharedService {
 
     for (var cardData in cardList) {
       String cardId = cardData['card_id'];
-      String maskedCard = cardData['masked_card'];
-      String expiryMonth = cardData['expiry_month'];
-      String expiryYear = cardData['expiry_year'];
+      int maskedCard = cardData['masked_card'];
+      int expiryMonth = cardData['expiry_month'];
+      int expiryYear = cardData['expiry_year'];
       String status = cardData['status'];
 
       // Check if the card already exists in the database
