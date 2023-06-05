@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:edufin/constants.dart';
 import 'package:edufin/services/shared_service.dart';
 import 'package:edufin/size_config.dart';
@@ -25,7 +23,8 @@ class _HomeHeaderState extends State<HomeHeader> {
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
       future: userInfo,
-      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
@@ -71,7 +70,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                       ),
                     ),
                     Text(
-                      userInfo['fullName'] + " (" + userInfo['accountType'] +")" , // Use userInfo fullName here
+                      userInfo['fullName'] +
+                          " (" +
+                          userInfo['accountType'] +
+                          ")", // Use userInfo fullName here
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: getProportionateScreenHeight(18),

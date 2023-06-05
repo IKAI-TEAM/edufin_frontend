@@ -12,7 +12,8 @@ class DatabaseHelper {
   static final table = 'cards';
   static final columnCardId = 'card_id';
   static final columnMaskedCard = 'masked_card';
-  static final columnExpiry = 'expiry';
+  static final columnExpiryMonth= 'expiry_month';
+  static final columnExpiryYear = 'expiry_year';
   static final columnStatus = 'status';
 
 
@@ -44,7 +45,8 @@ class DatabaseHelper {
       CREATE TABLE $table (
         $columnCardId TEXT PRIMARY KEY,
         $columnMaskedCard TEXT,
-        $columnExpiry TEXT,
+        $columnExpiryMonth INTEGER, 
+        $columnExpiryYear INTEGER,
         $columnStatus TEXT
       )
     ''');
@@ -56,6 +58,24 @@ class DatabaseHelper {
       // Perform migration to add the 'status' column
       db.execute('ALTER TABLE cards ADD COLUMN status TEXT');
     }
+  }
+
+  Future<void> rebuildCard() async {
+    Database db = await instance.database;
+
+    // Delete the existing cards table
+    await db.execute('DROP TABLE IF EXISTS $table');
+    
+    // Create a new cards table
+    await db.execute('''
+      CREATE TABLE $table (
+        $columnCardId TEXT PRIMARY KEY,
+        $columnMaskedCard TEXT,
+        $columnExpiryMonth INTEGER, 
+        $columnExpiryYear INTEGER,
+        $columnStatus TEXT
+      )
+    ''');
   }
 
   Future<int> insert(Map<String, dynamic> row) async {

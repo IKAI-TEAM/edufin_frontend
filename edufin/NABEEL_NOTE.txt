@@ -5,11 +5,17 @@ MAJOR :
 - - Isi qr code nya : { email : emailuser@domain.com } ✅
 - QR Code scanner (Abis scan, loncat ke add kartu page tapi udah ke isi semua, tinggal limit sama optional input yang buat kartu per x day) ✅
 - Bikin if misalnya kartu dan tx belum ada gimana don yang kartu ✅
+- History kalo di klik pindah page ke transaction details
+- Modify card page
 - Fix bahasa ke inggris
-- List dari cardList di homebody (error)
+- List dari cardList di homebody (error) (sama gua aja)
 - Sisanya gua lupa sumpah ngantuk banget
 
+Major to minor :
+- Profile page Benerin
+
 Minor :
+- QR Code design ganti
 - Benerin password fields di register sama login
 - Tambahin error di register sama login (udah gua kasih note)
 - Kalo password fields udah di fix, ganti password dummy di variable models jadi data asli ✅
