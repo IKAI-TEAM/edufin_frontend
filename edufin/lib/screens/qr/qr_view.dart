@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:edufin/constants.dart';
+import 'package:edufin/services/shared_service.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -11,10 +14,37 @@ class QrView extends StatefulWidget {
 }
 
 class _QrViewState extends State<QrView> {
-  String data = 'Aku Anak Indonesia';
+  late Future<Map<String, dynamic>> userInfo;
 
   @override
+  void initState() {
+    super.initState();
+    userInfo = SharedService.getUserInfo();
+  }
+
+  
+  @override
   Widget build(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: userInfo,
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final userInfo = snapshot.data!;
+          return buildQRCode(userInfo);
+        } else {
+          return Text('No data available');
+        }
+      },
+    );
+  }
+
+  @override
+  Widget buildQRCode(Map<String, dynamic> userInfo) {
     return Scaffold(
       appBar: AppBar(
         title: Text('My QR'),
@@ -35,7 +65,7 @@ class _QrViewState extends State<QrView> {
                 ),
               ),
               QrImageView(
-                data: data,
+                data: jsonEncode(userInfo),
                 version: QrVersions.auto,
                 embeddedImage: AssetImage('assets/images/logo.png'),
                 embeddedImageStyle:
