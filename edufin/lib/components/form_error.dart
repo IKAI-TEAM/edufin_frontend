@@ -2,25 +2,20 @@ import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
 class FormError extends StatelessWidget {
-  final List<String> errors;
+  final String error;
   const FormError({
     super.key,
-    required this.errors,
+    required this.error,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        errors.length,
-        (index) => formErrorText(
-          error: errors[index],
-        ),
-      ),
-    );
+    return Column(children: [
+      error.isNotEmpty ? formErrorText(error: error) : const SizedBox(),
+    ]);
   }
 
-  Row formErrorText({required String error}) {
+  Widget formErrorText({required String error}) {
     return Row(
       children: [
         const Icon(

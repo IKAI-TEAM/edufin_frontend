@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:edufin/components/form_error.dart';
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/auth/login_request_model.dart';
@@ -27,7 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
 
   bool isValid = false;
+  bool _passwordVisible = false;
   final _formKey = GlobalKey<FormState>();
+
+  String error = '';
 
   // Set controller text here
   TextEditingController emailController = TextEditingController();
@@ -45,18 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Positioned(
-              //   top: getProportionateScreenHeight(45),
-              //   left: getProportionateScreenWidth(10),
-              //   child: IconButton(
-              //     onPressed: () {
-              //       Navigator.of(context).pop();
-              //     },
-              //     icon: const Icon(
-              //       Icons.arrow_back_ios_new_rounded,
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(30),
@@ -99,14 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: getProportionateScreenHeight(20),
+                      height: getProportionateScreenHeight(70),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.35,
+                      height: SizeConfig.screenHeight * 0.2,
                       child: Form(
                         key: _formKey,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextFormField(
                               controller: emailController,
@@ -136,14 +128,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(
                                   () {
                                     email = value;
+                                    error = '';
                                   },
                                 );
                               },
                             ),
                             TextFormField(
                               controller: passwordController,
-                              textInputAction: TextInputAction.next,
+                              textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.visiblePassword,
+                              obscureText: !_passwordVisible,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return kPasswordInvalid;
@@ -151,8 +145,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 }
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Password',
+                                suffixIcon: IconButton(
+                                  splashRadius: 0.1,
+                                  icon: Icon(
+                                    // Based on passwordVisible state choose the icon
+                                    _passwordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: kSecondaryTextColor,
+                                  ),
+                                  onPressed: () {
+                                    // Update the state i.e. toogle the state of passwordVisible variable
+                                    setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                    });
+                                  },
+                                ),
                               ),
                               style: TextStyle(
                                 fontSize: getProportionateScreenHeight(20),
@@ -166,6 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(
                                   () {
                                     password = value;
+                                    error = '';
                                   },
                                 );
                               },
@@ -174,8 +185,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(20),
+                    ),
                     // INI BUAT CUSTOM ERROR TEXT
-                    // FormError(errors: errors),
+                    FormError(error: error),
+                    SizedBox(
+                      height: getProportionateScreenHeight(40),
+                    ),
                     RoundedButton(
                         width: SizeConfig.screenWidth * 0.8,
                         text: 'Masuk',
@@ -246,5 +263,8 @@ class _LoginScreenState extends State<LoginScreen> {
     // Kalo kodenya sampe sini, berarti login gagal, kasih error alert atau apalah bebas
     // Nabeel error
     // Variable error message : requestLogin['error']
+    setState(() {
+      error = 'Incorrect email or password';
+    });
   }
 }

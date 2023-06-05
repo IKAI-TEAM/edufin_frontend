@@ -1,3 +1,4 @@
+import 'package:edufin/components/form_error.dart';
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/auth/register_request_model.dart';
@@ -32,6 +33,7 @@ class _RegisterState extends State<Register> {
   String governmentId = '';
 
   bool isValid = false;
+  String error = '';
 
   // Texteditor controller for each TextFields
   TextEditingController fullNameController = TextEditingController();
@@ -241,10 +243,12 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
+              FormError(error: error),
               RoundedButton(
-                  width: SizeConfig.screenWidth * 0.8,
-                  text: 'Daftar',
-                  press: registerUser),
+                width: SizeConfig.screenWidth * 0.8,
+                text: 'Daftar',
+                press: registerUser,
+              ),
               Padding(
                 padding:
                     EdgeInsets.only(bottom: getProportionateScreenHeight(16)),
@@ -278,6 +282,8 @@ class _RegisterState extends State<Register> {
   }
 
   void registerUser() async {
+    error = '';
+
     // Preparing the data
     String fullName = fullNameController.text;
     String email = emailController.text;
@@ -308,5 +314,8 @@ class _RegisterState extends State<Register> {
     // Kalo kodenya sampe sini, berarti register gagal, kasih error alert atau apalah bebas
     // Nabeel error
     // Variable error message : requestRegist['error']
+    setState(() {
+      error = 'Incorrect email or password';
+    });
   }
 }
