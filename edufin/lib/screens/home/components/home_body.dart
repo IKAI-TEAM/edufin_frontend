@@ -93,8 +93,8 @@ class _MainBodyState extends State<MainBody> {
                                       // ignore: avoid_print
                                       // List dari cardList 
 
-                                      onTap: () => cardSheet(context, demoCard[index]),
-                                      child: CardView(card: demoCard[index]),
+                                      onTap: () => cardSheet(context, MyCard(cardNum: 0687, balance: 0, expiryMonth: 10, expiryYear: 10 )),
+                                      child: CardView(card: MyCard(cardNum: 0687, balance: 0, expiryMonth: 10, expiryYear: 10 )),
                                     ),
                                   ),
                                 ],

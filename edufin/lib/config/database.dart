@@ -58,6 +58,23 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> rebuildCard() async {
+    Database db = await instance.database;
+
+    // Delete the existing cards table
+    await db.execute('DROP TABLE IF EXISTS $table');
+    
+    // Create a new cards table
+    await db.execute('''
+      CREATE TABLE $table (
+        $columnCardId TEXT PRIMARY KEY,
+        $columnMaskedCard TEXT,
+        $columnExpiry TEXT,
+        $columnStatus TEXT
+      )
+    ''');
+  }
+
   Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(table, row);

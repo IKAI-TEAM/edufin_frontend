@@ -45,6 +45,8 @@ class SharedService {
   
   static Future<void> saveCardsInfo(List<dynamic> cardList) async {
     DatabaseHelper databaseHelper = DatabaseHelper.instance;
+    
+    await databaseHelper.rebuildCard();
 
     for (var cardData in cardList) {
       String cardId = cardData['card_id'];
@@ -53,9 +55,7 @@ class SharedService {
       String status = cardData['status'];
 
       // Check if the card already exists in the database
-      List<Map<String, dynamic>> existingCards =
-          await databaseHelper.queryRowsByCardId(cardId);
-      log("askdaskdksald");
+      List<Map<String, dynamic>> existingCards = await databaseHelper.queryRowsByCardId(cardId);
       if (existingCards.isEmpty) {
         // Card doesn't exist, insert it into the database
         Map<String, dynamic> cardMap = {
