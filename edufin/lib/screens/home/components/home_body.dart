@@ -106,14 +106,15 @@ class _MainBodyState extends State<MainBody> {
                                   ),
 
                                   child: CardView(
-                                      card: MyCard(
-                                          cardNum: cardList[index]
-                                              ['masked_card'],
-                                          balance: 0,
-                                          expiryMonth: cardList[index]
-                                              ['expiry_month'],
-                                          expiryYear: cardList[index]
-                                              ['expiry_year'])),
+                                    card: MyCard(
+                                      cardNum: cardList[index]['masked_card'],
+                                      balance: 0,
+                                      expiryMonth: cardList[index]
+                                          ['expiry_month'],
+                                      expiryYear: cardList[index]
+                                          ['expiry_year'],
+                                    ),
+                                  ),
                                 );
                               },
                             ),
@@ -124,7 +125,7 @@ class _MainBodyState extends State<MainBody> {
                     ),
                     SmoothPageIndicator(
                       controller: _controller,
-                      count: noCard ? 0 : cardList.length + 1,
+                      count: cardList.isEmpty ? 0 : cardList.length + 1,
                       effect: WormEffect(
                         type: WormType.underground,
                         activeDotColor: kMainColor,
@@ -146,7 +147,8 @@ class _MainBodyState extends State<MainBody> {
                           ...List.generate(
                             demoTransaction.length,
                             (index) => TransactionView(
-                                transaction: demoTransaction[index]),
+                              transaction: demoTransaction[index],
+                            ),
                           )
                         ],
                       ),
