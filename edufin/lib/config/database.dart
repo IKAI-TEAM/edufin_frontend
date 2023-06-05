@@ -12,7 +12,8 @@ class DatabaseHelper {
   static final table = 'cards';
   static final columnCardId = 'card_id';
   static final columnMaskedCard = 'masked_card';
-  static final columnExpiry = 'expiry';
+  static final columnExpiryMonth= 'expiry_month';
+  static final columnExpiryYear = 'expiry_year';
   static final columnStatus = 'status';
 
 
@@ -44,7 +45,8 @@ class DatabaseHelper {
       CREATE TABLE $table (
         $columnCardId TEXT PRIMARY KEY,
         $columnMaskedCard TEXT,
-        $columnExpiry TEXT,
+        $columnExpiryMonth INTEGER, 
+        $columnExpiryYear INTEGER,
         $columnStatus TEXT
       )
     ''');
@@ -69,7 +71,8 @@ class DatabaseHelper {
       CREATE TABLE $table (
         $columnCardId TEXT PRIMARY KEY,
         $columnMaskedCard TEXT,
-        $columnExpiry TEXT,
+        $columnExpiryMonth INTEGER, 
+        $columnExpiryYear INTEGER,
         $columnStatus TEXT
       )
     ''');

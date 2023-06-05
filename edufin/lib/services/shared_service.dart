@@ -51,7 +51,8 @@ class SharedService {
     for (var cardData in cardList) {
       String cardId = cardData['card_id'];
       String maskedCard = cardData['masked_card'];
-      String expiry = cardData['expiry'];
+      String expiryMonth = cardData['expiry_month'];
+      String expiryYear = cardData['expiry_year'];
       String status = cardData['status'];
 
       // Check if the card already exists in the database
@@ -61,7 +62,8 @@ class SharedService {
         Map<String, dynamic> cardMap = {
           DatabaseHelper.columnCardId: cardId,
           DatabaseHelper.columnMaskedCard: maskedCard,
-          DatabaseHelper.columnExpiry: expiry,
+          DatabaseHelper.columnExpiryMonth: expiryMonth,
+          DatabaseHelper.columnExpiryYear: expiryYear,
           DatabaseHelper.columnStatus: status,
         };
 
