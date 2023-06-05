@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static final _databaseName = 'edufin10.db';
+  static final _databaseName = 'edufin12.db';
   static final _databaseVersion = 3;
 
   // Card table
@@ -96,8 +96,9 @@ class DatabaseHelper {
     Database db = await instance.database;
 
     // Delete the existing cards table
-    await db.execute('DROP TABLE IF EXISTS $table');
-    
+    await db.execute('DROP TABLE IF EXISTS $tableHistory');
+    log("DROPPP");
+
     // Create a new histories table
     await db.execute('''
       CREATE TABLE $tableHistory (
@@ -107,6 +108,7 @@ class DatabaseHelper {
         $columnMerchantName TEXT
       )
     ''');
+    log("Recreate");
   }
 
   Future<int> insert(Map<String, dynamic> row) async {

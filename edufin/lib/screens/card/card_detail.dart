@@ -1,22 +1,70 @@
+import 'dart:developer';
+
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/card.dart';
 import 'package:edufin/models/transaction.dart';
 import 'package:edufin/screens/card/ayoconnect_card_detail.dart';
 import 'package:edufin/screens/home/components/card_view.dart';
+import 'package:edufin/screens/home/components/no_transaction.dart';
 import 'package:edufin/screens/home/components/section_title.dart';
 import 'package:edufin/screens/home/components/transaction.dart';
+import 'package:edufin/services/api_services.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:edufin/services/local_cards_services.dart';
+import 'package:edufin/services/local_histories_services.dart';
 
-class CardDetail extends StatelessWidget {
+class CardDetail extends StatefulWidget {
   static String routeName = '/carddetail';
-  const CardDetail({super.key, required this.card});
+  const CardDetail({super.key, required this.card, required this.cardId});
 
   final MyCard card;
+  final String cardId;
+
+  @override
+  State<CardDetail> createState() => _CardDetailState();
+}
+
+class _CardDetailState extends State<CardDetail> {
+  late Future<String> cardInfoList;
+  late Future<List<Map<String, dynamic>>> historyList;
+
+  @override
+  void initState() {
+    super.initState();
+    cardInfoList = APIService.getCardDetail(widget.cardId);
+    historyList = localHistoriesServices.getHistoryList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Future.wait([historyList, cardInfoList]),
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(), // Show a loading indicator while fetching data
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final List<Map<String, dynamic>> historyListData = snapshot.data![0];
+          final String cardInfoList = snapshot.data![1];
+          // log(cardListData.toString());
+          log(historyListData.toString());
+          return buildCardDetail(historyListData, cardInfoList);
+        } else {
+          return Text('No data available');
+        }
+        
+      },
+    );
+  }
+
+  @override
+  Widget buildCardDetail(List<Map<String, dynamic>> historyList, String cardInfoList) {
+    log(cardInfoList);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -38,7 +86,7 @@ class CardDetail extends StatelessWidget {
                 SizedBox(
                   height: getProportionateScreenHeight(20),
                 ),
-                CardView(card: card),
+                CardView(card: widget.card),
                 Container(
                   height: getProportionateScreenHeight(100),
                   // color: kTextColor,
@@ -145,11 +193,23 @@ class CardDetail extends StatelessWidget {
                   press: () {},
                   tap: false,
                 ),
-                ...List.generate(
-                  demoTransaction.length,
-                  (index) =>
-                      TransactionView(transaction: demoTransaction[index]),
-                )
+                historyList.isEmpty
+                    ? const NoTransaction()
+                    : Column(
+                        children: [
+                          ...List.generate(
+                            historyList.length,
+                            (index) { 
+                              if(index < 3) {
+                                return TransactionView(
+                                  transaction: Transaction(transactionId: historyList[index]['transaction_id'], merchantName: historyList[index]['merchant_name'], amount: historyList[index]['amount']),
+                                );
+                              }
+                              return SizedBox.shrink();
+                            }
+                          )
+                        ],
+                      ),
               ],
             ),
           ),
@@ -164,7 +224,7 @@ class CardDetail extends StatelessWidget {
           press: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (BuildContext context) => const WebViewPage(),
+                builder: (BuildContext context) => WebViewPage(url: cardInfoList),
               ),
             );
           },

@@ -6,7 +6,7 @@ import 'package:edufin/screens/card/edit_card.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
-cardSheet(context, MyCard card) {
+cardSheet(context, MyCard card, String cardId) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -60,6 +60,7 @@ cardSheet(context, MyCard card) {
                   MaterialPageRoute(
                     builder: (context) => CardDetail(
                       card: card,
+                      cardId: cardId,
                     ),
                   ),
                 );

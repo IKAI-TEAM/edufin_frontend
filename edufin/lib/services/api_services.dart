@@ -115,10 +115,12 @@ class APIService {
       'Content-Type': 'application/json',
       'x-access-token': tokenHistory
     };
-
+    log("PUSHEDD");
     try {
       final response = await http.post(url, headers: headers);
       final responseBody = jsonDecode(response.body);
+      log(responseBody.toString());
+      log("ASjdhasjdjkansdas");
 
       await SharedService.saveHistoryInfo(responseBody['history']);
     } catch (e, stackTrace) {
@@ -129,6 +131,40 @@ class APIService {
 
     return true;
   }
+
+  static Future<String> getCardDetail(String cardId) async {
+    log(cardId);
+    log("REQ CARD ID");
+    var url = Uri.http(
+      Config.apiURL,
+      Config.cardViewAPI,
+    );
+
+    final body = jsonEncode({"cardId": cardId});
+
+    // Token
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tokenHistory = prefs.getString('token').toString();
+    
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+      'x-access-token': tokenHistory
+    };
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+      final responseBody = jsonDecode(response.body);
+
+      return responseBody['webview'];
+    } catch (e, stackTrace) {
+      log(stackTrace.toString());
+      log(e.toString()); 
+    }
+
+    return '';
+
+  }
+
 
     
 

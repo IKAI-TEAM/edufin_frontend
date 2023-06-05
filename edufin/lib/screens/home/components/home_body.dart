@@ -42,30 +42,30 @@ class _MainBodyState extends State<MainBody> {
   }
 
 
-@override
-Widget build(BuildContext context) {
-  return FutureBuilder(
-    future: Future.wait([cardList, historyList]),
-    builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(
-          child: CircularProgressIndicator(), // Show a loading indicator while fetching data
-        );
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        final List<Map<String, dynamic>> cardListData = snapshot.data![0];
-        final List<Map<String, dynamic>> historyListData = snapshot.data![1];
-        log(cardListData.toString());
-        log(historyListData.toString());
-        return buildCard(cardListData, historyListData);
-      } else {
-        return Text('No data available');
-      }
-      
-    },
-  );
-}
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Future.wait([cardList, historyList]),
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(), // Show a loading indicator while fetching data
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final List<Map<String, dynamic>> cardListData = snapshot.data![0];
+          final List<Map<String, dynamic>> historyListData = snapshot.data![1];
+          log(cardListData.toString());
+          log(historyListData.toString());
+          return buildCard(cardListData, historyListData);
+        } else {
+          return Text('No data available');
+        }
+        
+      },
+    );
+  }
 
   Widget buildCard(List<Map<String, dynamic>> cardList, List<Map<String, dynamic>> historyList) {
     log(cardList.toString());
@@ -110,6 +110,7 @@ Widget build(BuildContext context) {
                                       expiryYear: cardList[index]
                                           ['expiry_year'],
                                     ),
+                                    cardList[index]['card_id'],
                                   ),
 
                                   child: CardView(
@@ -153,9 +154,14 @@ Widget build(BuildContext context) {
                         children: [
                           ...List.generate(
                             historyList.length,
-                            (index) => TransactionView(
-                              transaction: Transaction(transactionId: historyList[index]['transaction_id'], merchantName: historyList[index]['merchant_name'], amount: historyList[index]['amount']),
-                            ),
+                            (index) { 
+                              if(index < 3) {
+                                return TransactionView(
+                                  transaction: Transaction(transactionId: historyList[index]['transaction_id'], merchantName: historyList[index]['merchant_name'], amount: historyList[index]['amount']),
+                                );
+                              }
+                              return SizedBox.shrink();
+                            }
                           )
                         ],
                       ),
