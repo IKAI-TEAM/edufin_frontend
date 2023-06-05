@@ -4,10 +4,10 @@ import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
 class HomeHeader extends StatefulWidget {
-  HomeHeader({Key? key}) : super(key: key);
+  const HomeHeader({Key? key}) : super(key: key);
 
   @override
-  _HomeHeaderState createState() => _HomeHeaderState();
+  State<HomeHeader> createState() => _HomeHeaderState();
 }
 
 class _HomeHeaderState extends State<HomeHeader> {

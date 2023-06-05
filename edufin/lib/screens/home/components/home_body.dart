@@ -30,7 +30,7 @@ class _MainBodyState extends State<MainBody> {
 
   final _controller = PageController();
 
-  bool noCard = false;
+  bool noCard = true;
   bool noTransaction = true;
 
   @override
@@ -56,7 +56,7 @@ class _MainBodyState extends State<MainBody> {
           log(cardList.toString());
           return buildCard(cardList);
         } else {
-          return Text('No data available');
+          return const Text('No data available');
         }
       },
     );
@@ -71,9 +71,11 @@ class _MainBodyState extends State<MainBody> {
             maintainBottomViewPadding: true,
             child: Column(
               children: [
-                HomeHeader(),
+                const HomeHeader(),
                 noCard
-                    ? const NoCard()
+                    ? const NoCard(
+                        padding: true,
+                      )
                     : Column(
                         children: [
                           Padding(
@@ -102,12 +104,16 @@ class _MainBodyState extends State<MainBody> {
                                         ),
                                       ),
                                       child: CardView(
-                                          card: MyCard(
-                                              cardNum: 0687,
-                                              balance: 0,
-                                              expiryMonth: 10,
-                                              expiryYear: 10)),
+                                        card: MyCard(
+                                            cardNum: 0687,
+                                            balance: 0,
+                                            expiryMonth: 10,
+                                            expiryYear: 10),
+                                      ),
                                     ),
+                                  ),
+                                  const NoCard(
+                                    padding: false,
                                   ),
                                 ],
                               ),
@@ -115,7 +121,7 @@ class _MainBodyState extends State<MainBody> {
                           ),
                           SmoothPageIndicator(
                             controller: _controller,
-                            count: cardList.length,
+                            count: cardList.length + 1,
                             effect: WormEffect(
                               type: WormType.underground,
                               activeDotColor: kMainColor,

@@ -5,15 +5,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 class NoCard extends StatelessWidget {
   const NoCard({
     super.key,
+    required this.padding,
   });
+  final bool padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        top: getProportionateScreenHeight(10),
-        bottom: getProportionateScreenHeight(25),
-      ),
+      padding: padding
+          ? EdgeInsets.only(
+              top: getProportionateScreenHeight(10),
+              bottom: getProportionateScreenHeight(25),
+            )
+          : const EdgeInsets.all(0),
       child: GestureDetector(
         onTap: () {},
         child: SizedBox(
@@ -29,7 +33,7 @@ class NoCard extends StatelessWidget {
                 right: getProportionateScreenHeight(30),
               ),
               width: SizeConfig.screenWidth * 0.85,
-              height: SizeConfig.screenHeight * 0.25,
+              height: SizeConfig.screenHeight * 0.28,
               decoration: BoxDecoration(
                 color: const Color(0xffB4B4B4).withOpacity(0.5),
                 borderRadius: BorderRadius.all(

@@ -1,3 +1,4 @@
+import 'package:edufin/constants.dart';
 import 'package:edufin/screens/home/home_screen.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,6 @@ class SuccessScreen extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Positioned(
-                top: getProportionateScreenHeight(45),
-                left: getProportionateScreenWidth(10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                ),
-              ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(30),
@@ -36,15 +27,6 @@ class SuccessScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(15),
-                      width: SizeConfig.screenWidth * 0.2,
-                      height: SizeConfig.screenWidth * 0.2,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
                     Image.asset(
                       "assets/images/sukses.png",
                       width: SizeConfig.screenWidth * 0.9,
@@ -53,8 +35,9 @@ class SuccessScreen extends StatelessWidget {
                       height: SizeConfig.screenHeight * 0.05,
                     ),
                     Text(
-                      "Masuk Berhasil!",
+                      "Login Success!",
                       style: TextStyle(
+                        color: kTextColor,
                         fontWeight: FontWeight.bold,
                         fontSize: getProportionateScreenHeight(34),
                       ),
@@ -63,7 +46,7 @@ class SuccessScreen extends StatelessWidget {
                       height: SizeConfig.screenHeight * 0.02,
                     ),
                     Text(
-                      "Proses masuk yang anda lakukan\n telah berhasil, anda dapat lanjut ke Halaman Utama",
+                      "Your login process has been successful, you can continue to the main page",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -75,7 +58,7 @@ class SuccessScreen extends StatelessWidget {
                     ),
                     RoundedButton(
                       width: SizeConfig.screenWidth * 0.8,
-                      text: 'Lanjut ke Halaman Utama',
+                      text: 'Continue to Home Page',
                       press: () {
                         Navigator.pushNamed(
                           context,

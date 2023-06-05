@@ -37,8 +37,8 @@ class _CardViewState extends State<CardView> {
           left: getProportionateScreenHeight(30),
           right: getProportionateScreenHeight(30),
         ),
-        width: SizeConfig.screenWidth * 0.85,
-        height: SizeConfig.screenHeight * 0.25,
+        // width: SizeConfig.screenWidth * 0.85,
+        // height: SizeConfig.screenHeight * 0.5,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: kGradientColor,

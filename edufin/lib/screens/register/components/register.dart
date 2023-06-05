@@ -47,7 +47,7 @@ class _RegisterState extends State<Register> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(30),
+            horizontal: getProportionateScreenWidth(25),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -63,18 +63,15 @@ class _RegisterState extends State<Register> {
                   "assets/icons/vectorlogo.png",
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  // width: SizeConfig.screenWidth * 0.6,
-                  child: Text(
-                    "Register as ${widget.text}",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: getProportionateScreenHeight(32),
-                      color: kTextColor,
-                    ),
+              SizedBox(
+                // width: SizeConfig.screenWidth * 0.6,
+                child: Text(
+                  "Register as ${widget.text}",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: getProportionateScreenHeight(32),
+                    color: kTextColor,
                   ),
                 ),
               ),

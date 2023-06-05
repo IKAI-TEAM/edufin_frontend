@@ -83,7 +83,7 @@ cardSheet(context, MyCard card) {
               child: TextButton(
                 onPressed: () {},
                 child: Text(
-                  'Delete Card',
+                  'Disable Card',
                   style: TextStyle(
                     color: const Color(0xffC8C7FA),
                     fontSize: getProportionateScreenHeight(16),
