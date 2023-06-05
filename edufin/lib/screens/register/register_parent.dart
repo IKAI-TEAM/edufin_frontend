@@ -2,15 +2,15 @@ import 'package:edufin/screens/register/components/register.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterParent extends StatefulWidget {
   static String routeName = '/register';
-  const RegisterScreen({super.key});
+  const RegisterParent({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterParent> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterParent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

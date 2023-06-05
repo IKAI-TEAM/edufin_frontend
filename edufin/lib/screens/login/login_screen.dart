@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:edufin/components/rounded_button.dart';
 import 'package:edufin/constants.dart';
 import 'package:edufin/models/auth/login_request_model.dart';
-import 'package:edufin/screens/register/register_screen.dart';
+import 'package:edufin/screens/register/register_parent.dart';
 import 'package:edufin/screens/success/success_screen.dart';
 import 'package:edufin/services/api_services.dart';
 import 'package:edufin/size_config.dart';
@@ -45,80 +45,64 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Positioned(
-                top: getProportionateScreenHeight(45),
-                left: getProportionateScreenWidth(10),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   top: getProportionateScreenHeight(45),
+              //   left: getProportionateScreenWidth(10),
+              //   child: IconButton(
+              //     onPressed: () {
+              //       Navigator.of(context).pop();
+              //     },
+              //     icon: const Icon(
+              //       Icons.arrow_back_ios_new_rounded,
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(45),
+                  horizontal: getProportionateScreenWidth(30),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Container(
-                    //   padding: EdgeInsets.all(getProportionateScreenWidth(15)),
-                    //   width: SizeConfig.screenWidth * 0.2,
-                    //   height: SizeConfig.screenWidth * 0.2,
-                    //   decoration: const BoxDecoration(
-                    //     color: Colors.white,
-                    //     shape: BoxShape.circle,
-                    //   ),
-                    //   child: Image.asset(
-                    //     "assets/images/logo.png",
-                    //     width: SizeConfig.screenWidth * 0.1,
-                    //     height: SizeConfig.screenWidth * 0.1,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: SizeConfig.screenHeight * 0.04,
-                    // ),
-                    // Align(
-                    //   alignment: Alignment.centerLeft,
-                    //   child: SizedBox(
-                    //     // width: SizeConfig.screenWidth * 0.6,
-                    //     child: Text(
-                    //       "Welcome to \nE-Kantin",
-                    //       textAlign: TextAlign.start,
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: getProportionateScreenHeight(42),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: SizeConfig.screenHeight * 0.02,
-                    // ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: SizedBox(
-                        // width: SizeConfig.screenWidth * 0.6,
-                        child: Text(
-                          "Login dengan Nomor Telepon \nyang sudah terdaftar.",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: getProportionateScreenHeight(18),
-                          ),
+                    Container(
+                      padding: EdgeInsets.all(getProportionateScreenWidth(15)),
+                      width: SizeConfig.screenWidth * 0.3,
+                      height: SizeConfig.screenWidth * 0.3,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image.asset(
+                        "assets/icons/vectorlogo.png",
+                      ),
+                    ),
+                    Text(
+                      "Welcome to \nEduFin!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: kTextColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: getProportionateScreenHeight(42),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.screenHeight * 0.022,
+                    ),
+                    SizedBox(
+                      // width: SizeConfig.screenWidth * 0.6,
+                      child: Text(
+                        "Sign In to continue",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: getProportionateScreenHeight(18),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.02,
+                      height: getProportionateScreenHeight(20),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.3,
+                      height: SizeConfig.screenHeight * 0.35,
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -129,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   return kEmailInvalid;
                                 } else {
                                   return null;
@@ -162,8 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.visiblePassword,
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   return kPasswordInvalid;
                                 } else {
                                   return null;
@@ -194,52 +176,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     // INI BUAT CUSTOM ERROR TEXT
                     // FormError(errors: errors),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: getProportionateScreenHeight(30)),
-                      child: const SizedBox(
-                        // width: SizeConfig.screenWidth * 0.6,
-                        child: Text(
-                          'Dengan ketukan “Masuk” anda \nmenyetujui syarat dan ketentuan',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.01,
-                    ),
                     RoundedButton(
                         width: SizeConfig.screenWidth * 0.8,
                         text: 'Masuk',
-                        press: loginUser
-                        // press: () {
-                        //   if (_formKey.currentState!.validate()) {
-                        //     _formKey.currentState?.save();
-
-                        //     Navigator.pushNamed(
-                        //       context,
-                        //       HomePage.routeName,
-                        //     );
-                        //   }
-                        // },
-                        ),
+                        press: loginUser),
                     Padding(
                       padding: EdgeInsets.only(
-                          bottom: getProportionateScreenHeight(20)),
+                          bottom: getProportionateScreenHeight(30)),
                       child: SizedBox(
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Pengguna Baru? Daftar '),
+                              const TextSpan(text: "Don't have an account? "),
                               TextSpan(
-                                text: 'disini',
+                                text: 'Register here',
                                 style: const TextStyle(color: kMainColor),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushNamed(
                                       context,
-                                      RegisterScreen.routeName,
+                                      RegisterParent.routeName,
                                     );
                                   },
                               ),
@@ -270,7 +226,8 @@ class _LoginScreenState extends State<LoginScreen> {
       password: password_login,
     );
     // Call the api service
-    Map<String, dynamic> requestLogin = await APIService.loginUser(requestModel);
+    Map<String, dynamic> requestLogin =
+        await APIService.loginUser(requestModel);
 
     if (requestLogin['success']) {
       log("saksess");

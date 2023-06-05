@@ -32,7 +32,7 @@ class _MainBodyState extends State<MainBody> {
 
   bool noCard = false;
   bool noTransaction = true;
-  
+
   @override
   void initState() {
     super.initState();
@@ -46,8 +46,9 @@ class _MainBodyState extends State<MainBody> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-              child: CircularProgressIndicator(), // Show a loading indicator while fetching data
-            );
+            child:
+                CircularProgressIndicator(), // Show a loading indicator while fetching data
+          );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
@@ -88,12 +89,12 @@ class _MainBodyState extends State<MainBody> {
                                 children: [
                                   ...List.generate(
                                     cardList.length,
-                                    
                                     (index) => GestureDetector(
                                       // ignore: avoid_print
-                                      // List dari cardList 
+                                      // List dari cardList
 
-                                      onTap: () => cardSheet(context, demoCard[index]),
+                                      onTap: () =>
+                                          cardSheet(context, demoCard[index]),
                                       child: CardView(card: demoCard[index]),
                                     ),
                                   ),
@@ -103,7 +104,7 @@ class _MainBodyState extends State<MainBody> {
                           ),
                           SmoothPageIndicator(
                             controller: _controller,
-                            count: demoCard.length,
+                            count: cardList.length,
                             effect: WormEffect(
                               type: WormType.underground,
                               activeDotColor: kMainColor,
@@ -139,8 +140,4 @@ class _MainBodyState extends State<MainBody> {
       bottomNavigationBar: const NavBar(currentTab: 0),
     );
   }
-
-
-
 }
-

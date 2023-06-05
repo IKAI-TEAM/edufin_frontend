@@ -2,14 +2,14 @@ import 'package:edufin/screens/register/components/register.dart';
 import 'package:edufin/size_config.dart';
 import 'package:flutter/material.dart';
 
-class DataRegister extends StatefulWidget {
+class RegisterChild extends StatefulWidget {
   static String routeName = '/registerbocil';
-  const DataRegister({super.key});
+  const RegisterChild({super.key});
   @override
-  State<DataRegister> createState() => _DataRegisterState();
+  State<RegisterChild> createState() => _RegisterChildState();
 }
 
-class _DataRegisterState extends State<DataRegister> {
+class _RegisterChildState extends State<RegisterChild> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

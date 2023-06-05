@@ -1,5 +1,5 @@
 MAJOR :
-- View card webview
+- View card webview 
 - Profile QR Code (Sistemnya kalo di klik, nanti keluar qr code, qr code nya ngambil dari localStorage) ✅
 - - Qr code better kalo lu tambahin package buat generate qr code nya sendiri sih di flutter ✅
 - - Isi qr code nya : { email : emailuser@domain.com } ✅

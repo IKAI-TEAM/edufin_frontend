@@ -47,31 +47,42 @@ class _RegisterState extends State<Register> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(45),
+            horizontal: getProportionateScreenWidth(30),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(15)),
+                width: SizeConfig.screenWidth * 0.3,
+                height: SizeConfig.screenWidth * 0.3,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  "assets/icons/vectorlogo.png",
+                ),
+              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   // width: SizeConfig.screenWidth * 0.6,
                   child: Text(
-                    "Welcome To \n${widget.text}",
+                    "Register as ${widget.text}",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: getProportionateScreenHeight(42),
+                      fontSize: getProportionateScreenHeight(32),
                       color: kTextColor,
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.03,
+                height: SizeConfig.screenHeight * 0.02,
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.5,
+                height: SizeConfig.screenHeight * 0.55,
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -91,7 +102,7 @@ class _RegisterState extends State<Register> {
                           }
                         },
                         decoration: const InputDecoration(
-                          labelText: 'Nama Lengkap',
+                          labelText: 'Full Name',
                         ),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(16),
@@ -175,7 +186,6 @@ class _RegisterState extends State<Register> {
                           );
                         },
                       ),
-                      
                       TextFormField(
                         controller: emailController,
                         textInputAction: TextInputAction.next,
@@ -234,53 +244,10 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: getProportionateScreenHeight(10)),
-                child: SizedBox(
-                  // width: SizeConfig.screenWidth * 0.6,
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(
-                            text: 'Dengan ketukan "Daftar" anda \nmenyetujui '),
-                        TextSpan(
-                          text: 'syarat dan ketentuan',
-                          style: const TextStyle(color: kMainColor),
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                        ),
-                      ],
-                    ),
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
               RoundedButton(
                   width: SizeConfig.screenWidth * 0.8,
                   text: 'Daftar',
-                  press: registerUser
-                  // press: () {
-                  //   if (_formKey.currentState!.validate()) {
-                  //     _formKey.currentState?.save();
-
-                  //     RegisterRequestModel model = RegisterRequestModel(phoneNumber: int.parse(phoneNum));
-
-                  //     APIService.login(model).then((response) => {
-                  //           if (response)
-                  //             {
-                  //               Navigator.pushNamed(
-                  //                 context,
-                  //                  VerificationScreen.routeName,
-                  //                 arguments: {"phone_number": phoneNum},
-                  //               )
-                  //             }
-                  //         });
-
-                  //     Navigator.pushNamed(context, SuccessScreen.routeName);
-                  //   }
-                  // },
-                  ),
+                  press: registerUser),
               Padding(
                 padding:
                     EdgeInsets.only(bottom: getProportionateScreenHeight(16)),
@@ -288,9 +255,9 @@ class _RegisterState extends State<Register> {
                   child: Text.rich(
                     TextSpan(
                       children: [
-                        const TextSpan(text: 'Sudah Memiliki Akun? Masuk '),
+                        const TextSpan(text: 'Already hvae an account? '),
                         TextSpan(
-                          text: 'disini',
+                          text: 'Login here',
                           style: const TextStyle(color: kMainColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
