@@ -89,26 +89,32 @@ class _MainBodyState extends State<MainBody> {
                                 children: [
                                   ...List.generate(
                                     cardList.length,
-                                    (index) => GestureDetector(
-                                      // ignore: avoid_print
-                                      // List dari cardList
-                                      onTap: () => cardSheet(
-                                        context,
-                                        MyCard(
-                                          cardNum: 0687,
-                                          balance: 0,
-                                          expiryMonth: 10,
-                                          expiryYear: 10,
+                                    (index) { 
+                                        print('Index: ${cardList[index]['masked_card'].runtimeType}');
+                                        return GestureDetector(
+                                        // ignore: avoid_print
+                                        // List dari cardList
+                                        onTap: () => cardSheet(
+                                          context,
+                                          MyCard(
+                                            cardNum: cardList[index]['masked_card'],
+                                            balance: 0,
+                                            expiryMonth: cardList[index]['expiry_month'],
+                                            expiryYear: cardList[index]['expiry_year'],
+                                          ),
                                         ),
-                                      ),
-                                      child: CardView(
-                                          card: MyCard(
-                                              cardNum: 0687,
-                                              balance: 0,
-                                              expiryMonth: 10,
-                                              expiryYear: 10)),
-                                    ),
+                                        child: CardView(
+                                            card: MyCard(
+                                                cardNum: cardList[index]['masked_card'],
+                                                balance: 0,
+                                                expiryMonth: cardList[index]['expiry_month'],
+                                                expiryYear: cardList[index]['expiry_year']
+                                            )
+                                        ),
+                                      );
+                                    }
                                   ),
+                                  const NoCard()
                                 ],
                               ),
                             ),
