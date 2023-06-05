@@ -13,6 +13,9 @@ import 'package:edufin/screens/home/components/no_card.dart';
 import 'package:edufin/screens/home/components/no_transaction.dart';
 import 'package:edufin/screens/home/components/section_title.dart';
 import 'package:edufin/screens/home/components/transaction.dart';
+import 'package:edufin/screens/qr/qr_scanner.dart';
+import 'package:edufin/screens/qr/qr_view.dart';
+import 'package:edufin/services/shared_service.dart';
 import 'package:edufin/size_config.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,7 @@ class MainBody extends StatefulWidget {
 }
 
 class _MainBodyState extends State<MainBody> {
+  late Future<Map<String, dynamic>> userInfo;
   late Future<List<Map<String, dynamic>>> cardList;
   late Future<List<Map<String, dynamic>>> historyList;
   final _controller = PageController();
@@ -37,6 +41,8 @@ class _MainBodyState extends State<MainBody> {
   @override
   void initState() {
     super.initState();
+    
+    userInfo = SharedService.getUserInfo();
     cardList = localCardsServices.getCardList();
     historyList = localHistoriesServices.getHistoryList();
   }
@@ -45,29 +51,28 @@ class _MainBodyState extends State<MainBody> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait([cardList, historyList]),
+      future: Future.wait([cardList, historyList, userInfo]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(), // Show a loading indicator while fetching data
+            child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           final List<Map<String, dynamic>> cardListData = snapshot.data![0];
           final List<Map<String, dynamic>> historyListData = snapshot.data![1];
-          log(cardListData.toString());
-          log(historyListData.toString());
-          return buildCard(cardListData, historyListData);
+          final Map<String, dynamic> userInfoData = snapshot.data![2];
+
+          return buildCard(cardListData, historyListData, userInfoData);
         } else {
           return Text('No data available');
         }
-        
       },
     );
   }
 
-  Widget buildCard(List<Map<String, dynamic>> cardList, List<Map<String, dynamic>> historyList) {
+  Widget buildCard(List<Map<String, dynamic>> cardList, List<Map<String, dynamic>> historyList, Map<String, dynamic> userInfo) {
     log(cardList.toString());
     log("cardlist");
     return Scaffold(
@@ -126,7 +131,26 @@ class _MainBodyState extends State<MainBody> {
                                 );
                               },
                             ),
-                            const NoCard()
+                            GestureDetector(
+                              
+                              onTap: () {
+
+                                userInfo['accountType'] == "parents" ?
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const QrScanner(),
+                                    ),
+                                  ) :
+                                   Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const QrView(),
+                                    ),
+                                  );
+                              } , // Disable onTap
+                              child: const NoCard(),
+                            ),
                           ],
                         ),
                       ),
