@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NoCard extends StatefulWidget {
-  const NoCard({super.key, required this.padding});
-
-  final bool padding;
+  const NoCard({super.key});
 
   @override
   State<NoCard> createState() => _NoCardState();
@@ -45,7 +43,7 @@ class _NoCardState extends State<NoCard> {
   Widget buildNoCardWidget(Map<String, dynamic> userInfo) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenHeight(widget.padding ? 20 : 0),
+        horizontal: getProportionateScreenHeight(20),
       ),
       child: Container(
         padding: EdgeInsets.only(
